@@ -21,18 +21,19 @@ function LoginForm({Login, error}) {
         
         
         <form onSubmit={submitHandler} noValidate autoComplete="off" >
-            <div className="form-inner">
+            <div>
                 <h2>Login</h2>
                 {(error !== "") ? (<div className="error">{error}</div>) : ""}
-                <div className="form-group">
-                    <label htmlFor="email">Email: </label>
-                    <TextField type="email" name="email" id="email" label="Email" variant="filled" onChange={e => setDetails({...details, email: e.target.value})} value={details.email} />
+                <div>
+                    <TextField required type="email" name="email" id="email" label="Email" variant="outlined" 
+                    onChange={e => setDetails({...details, email: e.target.value})} value={details.email} />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password: </label>
-                    <TextField type="password" name="password" id="password" label="Password" variant="filled" onChange={e => setDetails({...details, password: e.target.value})} value={details.password} />
+                <div>
+                    <TextField required type="password" name="password" id="password" label="Password" variant="outlined" 
+                    onChange={e => setDetails({...details, password: e.target.value})} value={details.password} />
                 </div>
-                {(details.email.length >= 3 && details.email.includes("@") && details.password.length >= 1) ? (<input type="submit" value="Login" />) : ("")}    
+                {(details.email.length >= 3 && details.email.includes("@") && details.password.length >= 1) 
+                ? (<Button type="submit" value="Login" variant="contained" color="primary">Login</Button>) : ("")}    
             </div>
         </form>
     )
