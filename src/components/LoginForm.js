@@ -12,7 +12,7 @@ function LoginForm({Login, error, theme}) {
     const [details, setDetails] = useState({name: "", email: "", password: ""});
     
     const submitHandler = e => {
-        e.preventDefault(); //precent page from re-rendering
+        e.preventDefault(); //prevent page from re-rendering
         Login(details);
     }
     
@@ -25,7 +25,7 @@ function LoginForm({Login, error, theme}) {
                     <Typography variant="h1" className={theme.title}>Login</Typography>
                 </div>
                 
-                {(error !== "") ? (<div className={theme.error}>{error}</div>) : ""} 
+                {(error !== "") ? (<div className={theme.error}>{<Typography variant="h6">{error}</Typography> }</div>) : ""} 
 
                 <div>
                     <TextField required className={theme.form} InputProps={{className: theme.formInput}} 

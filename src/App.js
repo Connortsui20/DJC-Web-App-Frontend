@@ -5,6 +5,7 @@ import LoginForm from "./components/LoginForm"
 import HeaderIn from './components/HeaderLoggedIn';
 import HeaderOut from './components/HeaderLoggedOut';
 import DataTable from './components/DataTable';
+//import ErrorPopup from './components/ErrorPopup'
 
 import Button from '@material-ui/core/Button';
 
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
     error: { //error message
         color: "red",
-        margin: theme.spacing(1,2,1)
+        margin: theme.spacing(0, 1, 0)
 
     },
 
@@ -90,17 +91,23 @@ function App() {
     const [user, setUser] = useState({email: ""});
     const [error, setError] = useState("");
 
+    
+
+    
+
+
     const Login = details => {
         if (details.email === adminUser.email && details.password === adminUser.password){    
                 setUser({email: details.email});
             }
         else {
-            setError("Incorrect Username or Password")
+            setError("Incorrect Username or Password");
         }
     }
     
     const Logout = () => {
         setUser({email: ""});
+        setError("");
     }
 
     return (
@@ -117,6 +124,7 @@ function App() {
             ) : (
                 <div>
                     <HeaderOut/>
+                    
                     <LoginForm Login={Login} error={error} theme={theme}/>
                 </div>
             )}
