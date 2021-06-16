@@ -3,6 +3,9 @@ import LoginForm from "./components/LoginForm"
 import Header from './components/Header';
 import Button from '@material-ui/core/Button';
 
+import { Typography } from "@material-ui/core";
+
+
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -53,7 +56,12 @@ const useStyles = makeStyles((theme) => ({
     color: "red",
     margin: theme.spacing(1,2,1)
 
-  } 
+  },
+
+  welcome: {
+    color: "black",
+    marginTop: theme.spacing(15)
+  }
 
 }));
 
@@ -92,7 +100,7 @@ function App() {
 
       {(user.email !== "" && user.password !== "") ? (
         <div className={theme.gradient}>
-          <h2>Welcome, <span>{user.email}</span></h2>
+          <Typography className={theme.welcome} variant="h3">Welcome, <span>{user.email}</span></Typography>
           <Button className={theme.button} variant="contained" onClick={Logout}>Logout</Button>
         </div>
       ) : (
