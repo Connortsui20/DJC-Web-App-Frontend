@@ -38,7 +38,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     margin: theme.spacing(3, 0, 5),
     color: "white",
-    backgroundColor: "#B4B4B4"
+    backgroundColor: "#B4B4B4",
+    '&:hover': { //on hover
+      backgroundColor: '#D7DCDF', //what color should this be?
+      color: '#white',
+    }
   },
 
   button: { //needs to be the same as empty button except different background color
