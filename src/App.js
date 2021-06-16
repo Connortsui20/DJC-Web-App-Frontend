@@ -4,11 +4,11 @@ import LoginForm from "./components/LoginForm"
 
 import HeaderIn from './components/HeaderLoggedIn';
 import HeaderOut from './components/HeaderLoggedOut';
+import DataTable from './components/DataTable';
 
 import Button from '@material-ui/core/Button';
 
 import { Typography } from "@material-ui/core";
-
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
     },
 
-    welcome: {
+    welcome: { // welcome user message
         color: "black",
         marginTop: theme.spacing(15)
     }
@@ -78,16 +78,19 @@ function App() {
     
     const theme = useStyles();
     
+    // const adminUser = {
+    //     email: "admin@admin.com",
+    //     password: "admin123"
+    // }
     const adminUser = {
-        email: "admin@admin.com",
-        password: "admin123"
+        email: "c@c",
+        password: "asdf"
     }
     
     const [user, setUser] = useState({email: ""});
     const [error, setError] = useState("");
 
     const Login = details => {
-        
         if (details.email === adminUser.email && details.password === adminUser.password){    
                 setUser({email: details.email});
             }
@@ -108,6 +111,7 @@ function App() {
                 <div>
                     <HeaderIn/>
                     <Typography className={theme.welcome} variant="h3">Welcome, <span>{user.email}</span></Typography>
+                    <DataTable/>
                     <Button className={theme.button} variant="contained" onClick={Logout}>Logout</Button>
                 </div>
             ) : (

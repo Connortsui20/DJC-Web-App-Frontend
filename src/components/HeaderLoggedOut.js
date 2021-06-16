@@ -1,5 +1,6 @@
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import React from "react";
+
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -8,11 +9,11 @@ export default function HeaderLoggedOut() {
 
     const useStyles = makeStyles((theme) => ({
         
-        header: {
+        header: { //header color
             backgroundColor: "#039BE6",
         },
 
-        title: {
+        title: { //text style
             fontWeight: 500,
             color: "white",
             textAlign: "left",
