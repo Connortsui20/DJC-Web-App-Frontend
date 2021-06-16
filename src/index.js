@@ -3,22 +3,27 @@ import ReactDOM from 'react-dom';
 //import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Container from '@material-ui/core/Container';
+
 
 import '@fontsource/roboto';
 
 
-
-
-
 ReactDOM.render(
-  
+  <body>
   <React.StrictMode>
-    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    
+    <Container fixed>
+     
+      <App/>
+    
+    </Container>
 
-    <App />
-
-  </React.StrictMode>,
+  </React.StrictMode> 
+  </body>,
   document.getElementById('root')
 );
 
