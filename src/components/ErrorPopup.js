@@ -22,7 +22,7 @@ function ErrorPopup({openError, handleCloseError, theme}) {
                     </DialogContentText></DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseError} color="primary">
-                        Anotherbutton
+                        +button?
                     </Button>
                     <Button onClick={handleCloseError} color="primary" autoFocus>
                         Ok

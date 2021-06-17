@@ -22,7 +22,7 @@ function LoginForm({Login, loginError, theme}) {
         <form onSubmit={submitHandler} noValidate autoComplete="off" >
             <div>
                 <div>
-                    <Typography variant="h1" className={theme.title}>Login</Typography>
+                    <Typography variant="h2" className={theme.title}>Login</Typography>
                 </div>
                 
                 {(loginError !== "") ? (<div className={theme.errorText}>{<Typography variant="subtitle2">{loginError}</Typography> }</div>) : ""} 

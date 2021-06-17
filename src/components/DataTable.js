@@ -7,18 +7,18 @@ const columns = [
     ]; //this is just styling the header, column cells are styled in index.css
 
     const rows = [
-    { id: 1, SubmitTime: '00:00'},
-    { id: 2, SubmitTime: '00:00'},
-    { id: 3, SubmitTime: '00:00'},
-    { id: 4, SubmitTime: '00:00'},
-    { id: 5, SubmitTime: '00:00'},
-    { id: 6, SubmitTime: '00:00'},
-    { id: 7, SubmitTime: '00:00'},
-    { id: 8, SubmitTime: '00:00'},
-    { id: 9, SubmitTime: '00:00'},
-    { id: 10, SubmitTime: '00:00'},
-    { id: 11, SubmitTime: '00:00'},
-    { id: 12, SubmitTime: '00:00'},
+    { id: "001", SubmitTime: '00:00'},
+    { id: "002", SubmitTime: '00:00'},
+    { id: "003", SubmitTime: '00:00'},
+    { id: "004", SubmitTime: '00:00'},
+    { id: "005", SubmitTime: '00:00'},
+    { id: "006", SubmitTime: '00:00'},
+    { id: "007", SubmitTime: '00:00'},
+    { id: "008", SubmitTime: '00:00'},
+    { id: "009", SubmitTime: '00:00'},
+    { id: "010", SubmitTime: '00:00'},
+    { id: "011", SubmitTime: '00:00'},
+    { id: "012", SubmitTime: '00:00'},
 ];
 
 
@@ -26,7 +26,7 @@ function DataTable () {
 
 
         return (
-                <div style={{ height: 400, width: '100%' }}>
+                <div style={{ height: 400, width: '100%', margin: "25% 0" }}>
                     <DataGrid disableExtendRowFullWidth={false} rows={rows} columns={columns} pageSize={5} />
                 </div>
             );

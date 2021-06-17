@@ -8,8 +8,6 @@ import DataTable from './components/DataTable';
 import ErrorPopup from './components/ErrorPopup';
 import LogoutPopup from './components/LogoutPopup';
 
-import Button from '@material-ui/core/Button';
-
 import { Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -27,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
         color: "#5E646A"
     },
 
-    title: { //"Deliverer Job Completion"
+    title: { //"Login"
         display: "flex",
         fontWeight: 500,
-        fontSize: "50px",
+        fontSize: "30px",
         color: "black",
         alignItems: "center",
         justifyContent: "center",
-        margin: theme.spacing(15, 0, 10)
+        margin: theme.spacing(15, 0, 15)
 
     },
 
@@ -122,7 +120,7 @@ function App() {
     }
 
 
-    const [error, setError] = useState("");
+    //const [error, setError] = useState("");
 
     const [openError, setOpenError] = useState(false);
 
@@ -138,7 +136,7 @@ function App() {
                 <div>
                     <HeaderIn handleOpenLogoutCheck={handleOpenLogoutCheck}/>
                     <ErrorPopup openError={openError} handleCloseError={handleCloseError} theme={theme}/>
-                    <Typography className={theme.welcome} variant="h3">Welcome, <span>{user.email}</span></Typography>
+                    
                     <LogoutPopup logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme}/>
                     <DataTable/>
                 </div>

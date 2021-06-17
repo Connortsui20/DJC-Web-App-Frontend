@@ -14,7 +14,7 @@ export default function HeaderLoggedOut() {
         },
 
         title: { //text style
-            fontWeight: 500,
+            fontWeight: 400,
             color: "white",
             textAlign: "left",
         }
@@ -27,7 +27,7 @@ export default function HeaderLoggedOut() {
         <header>
             <AppBar className={headerTheme.header}>{
                 <Toolbar>
-                    <Typography variant="h5" className={headerTheme.title}>
+                    <Typography variant="subtitle1" className={headerTheme.title}>
                         Delieverer Job Completion
                     </Typography>
                 </Toolbar>
