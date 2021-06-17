@@ -7,7 +7,7 @@ import NoPageFound from "./components/NoPageFound";
 
 import LoginPage from "./LoginPage";
 import Home from "./Home";
-//import BarcodeScanPage from "./BarcodeScanPage";
+import BarcodeScanPage from "./BarcodeScanPage";
 
 //import { Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
@@ -122,8 +122,10 @@ function App() {
     }
 
 
-    const [addBarcode, setAddBarcode] = useState("Not Found");
+
+    const [addBarcode, setAddBarcode] = useState("No Barcode Found");
     const [openBarcode, setOpenBarcode] = useState(false);
+
 
     const handleOpenBarcode = () => {
         setOpenBarcode(true);
@@ -137,7 +139,7 @@ function App() {
         if (barcode) {
             setAddBarcode(barcode);
         } else {
-            setAddBarcode("Not Found");
+            setAddBarcode("No Barcode Found");
         }
     }
 
@@ -154,20 +156,24 @@ function App() {
     const routes = {
         "/home" : () => <Home handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
                         openError={openError} handleCloseError={handleCloseError}
-                        openBarcode={openBarcode} handleCloseBarcode={handleCloseBarcode} addBarcode={addBarcode} handleAddBarcode={handleAddBarcode}
+                        addBarcode={addBarcode}
                         logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme}
                         />,
         "/login" : () => <LoginPage Login={Login} loginError={loginError} theme={theme}/>,
+        "/scan" : () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} addBarcode={addBarcode} handleAddBarcode={handleAddBarcode}/>
       };
     
     const routeResult = useRoutes(routes);
 
-
+    
     return (
         
         <div className="App">
 
-            {(user.email !== "" && user.password !== "") ? (navigate("/home")) : (navigate("/login"))}
+            {(user.email !== "" && user.password !== "") ? 
+            ( (!openBarcode) ? (navigate("/home")) : (navigate("/scan"))
+            ) : (navigate("/login"))}
+
             {routeResult || <NoPageFound/>}    
 
         </div>
