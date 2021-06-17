@@ -10,7 +10,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
 
-export default function HeaderLoggedIn({handleOpenLogoutCheck}) {
+export default function HeaderLoggedIn({handleOpenBarcode, handleOpenLogoutCheck}) {
 
     const useStyles = makeStyles((theme) => ({
         
@@ -39,12 +39,13 @@ export default function HeaderLoggedIn({handleOpenLogoutCheck}) {
         <header>
             <AppBar className={headerTheme.header}>{
                 <Toolbar>
-                    <Button className={headerTheme.button}>
+                    <Button className={headerTheme.button} onClick={handleOpenBarcode}>
                         <AddIcon/>
                     </Button>
-                    <div className={headerTheme.right}><Button className={headerTheme.button} onClick={handleOpenLogoutCheck}>
-                        <ExitToAppIcon/>
-                    </Button></div>
+                    <div className={headerTheme.right}>
+                        <Button className={headerTheme.button} onClick={handleOpenLogoutCheck}>
+                            <ExitToAppIcon/>
+                        </Button></div>
                 </Toolbar>    
             }</AppBar>
         </header>

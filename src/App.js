@@ -7,9 +7,11 @@ import HeaderOut from './components/HeaderLoggedOut';
 import DataTable from './components/DataTable';
 import ErrorPopup from './components/ErrorPopup';
 import LogoutPopup from './components/LogoutPopup';
+import BarcodeScan from "./components/BarcodeScan";
 
-import { Typography } from "@material-ui/core";
+//import { Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+
 
 
 
@@ -120,6 +122,32 @@ function App() {
     }
 
 
+
+    const [addBarcode, setAddBarcode] = useState("Not Found");
+    const [openBarcode, setOpenBarcode] = useState(false);
+
+    const handleOpenBarcode = () => {
+        setOpenBarcode(true);
+    }
+   
+    const handleCloseBarcode = () => {
+        setOpenBarcode(false)
+    }
+
+   
+    
+    
+    const handleAddBarcode = (barcode) => {
+        if (barcode) {
+            setAddBarcode(barcode);
+        } else {
+            setAddBarcode("Not Found");
+        }
+    }
+
+
+
+
     //const [error, setError] = useState("");
 
     const [openError, setOpenError] = useState(false);
@@ -128,15 +156,27 @@ function App() {
       setOpenError(false);
     };
 
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         
         <div className="App">
 
             {(user.email !== "" && user.password !== "") ? (
                 <div>
-                    <HeaderIn handleOpenLogoutCheck={handleOpenLogoutCheck}/>
+                    <HeaderIn handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}/>
                     <ErrorPopup openError={openError} handleCloseError={handleCloseError} theme={theme}/>
-                    
+                    <BarcodeScan openBarcode={openBarcode} handleCloseBarcode={handleCloseBarcode} addBarcode={addBarcode} handleAddBarcode={handleAddBarcode}/>
                     <LogoutPopup logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme}/>
                     <DataTable/>
                 </div>
