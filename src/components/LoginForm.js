@@ -25,7 +25,7 @@ function LoginForm({Login, loginError, theme}) {
                     <Typography variant="h1" className={theme.title}>Login</Typography>
                 </div>
                 
-                {(loginError !== "") ? (<div className={theme.errorText}>{<Typography variant="h5">{loginError}</Typography> }</div>) : ""} 
+                {(loginError !== "") ? (<div className={theme.errorText}>{<Typography variant="subtitle2">{loginError}</Typography> }</div>) : ""} 
 
                 <div>
                     <TextField required className={theme.form} InputProps={{className: theme.formInput}} 

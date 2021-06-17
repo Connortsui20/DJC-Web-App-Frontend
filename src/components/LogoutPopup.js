@@ -8,24 +8,29 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 
-function ErrorPopup({openError, handleCloseError, theme}) {
+function LogoutPopup({logoutCheck, handleCloseLogoutCheck, Logout, theme}) {
+
+    const closeLogoutWindow  = () => {
+        handleCloseLogoutCheck();
+        Logout();
+    }
     
     return (
         <div><Dialog
-            open={openError}
-            onClose={handleCloseError}
+            open={logoutCheck}
+            onClose={handleCloseLogoutCheck}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">{"Error"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Logout"}</DialogTitle>
                 <DialogContent><DialogContentText id="alert-dialog-description">
-                        There is an error probably
+                        Are you sure you want to logout?
                     </DialogContentText></DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseError} color="primary">
-                        Anotherbutton
+                    <Button onClick={handleCloseLogoutCheck} color="primary">
+                        Cancel
                     </Button>
-                    <Button onClick={handleCloseError} color="primary" autoFocus>
-                        Ok
+                    <Button onClick={closeLogoutWindow} color="primary">
+                        Yes
                     </Button>
                 </DialogActions>
             </Dialog></div>
@@ -34,4 +39,4 @@ function ErrorPopup({openError, handleCloseError, theme}) {
 }
 
 
-export default ErrorPopup;
+export default LogoutPopup;

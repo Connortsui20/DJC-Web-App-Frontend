@@ -5,7 +5,8 @@ import LoginForm from "./components/LoginForm"
 import HeaderIn from './components/HeaderLoggedIn';
 import HeaderOut from './components/HeaderLoggedOut';
 import DataTable from './components/DataTable';
-import ErrorPopup from './components/ErrorPopup'
+import ErrorPopup from './components/ErrorPopup';
+import LogoutPopup from './components/LogoutPopup';
 
 import Button from '@material-ui/core/Button';
 
@@ -56,14 +57,14 @@ const useStyles = makeStyles((theme) => ({
         textTransform: "none",
         backgroundColor: "#5093F2",
         '&:hover': { //on hover
-            backgroundColor: '#0288D1', //what color should this be?
+            backgroundColor: '#0288D1', 
             color: '#white',
         }
     },
 
     errorText: { //error message
         color: "red",
-        margin: theme.spacing(0, 1, 0)
+        margin: theme.spacing(0, 1, 0),
     },
 
     welcome: { // welcome user message
@@ -96,7 +97,17 @@ function App() {
     const [user, setUser] = useState({email: "", password: ""});
     const [loginError, setLoginError] = useState("");
 
+    const [logoutCheck, setLogoutCheck] = useState(false);
     
+    
+    const handleOpenLogoutCheck = () => {
+        setLogoutCheck(true);
+    }
+    
+    const handleCloseLogoutCheck = () => {
+        setLogoutCheck(false);
+      };
+
 
     const Login = details => {
         if (details.email === adminUser.email && details.password === adminUser.password){    
@@ -111,13 +122,12 @@ function App() {
     }
 
 
-
     const [error, setError] = useState("");
 
-    const [open, setOpen] = useState(false);
+    const [openError, setOpenError] = useState(false);
 
-    const handleClose = () => {
-      setOpen(false);
+    const handleCloseError = () => {
+      setOpenError(false);
     };
 
     return (
@@ -126,15 +136,15 @@ function App() {
 
             {(user.email !== "" && user.password !== "") ? (
                 <div>
-                    <HeaderIn/>
+                    <HeaderIn handleOpenLogoutCheck={handleOpenLogoutCheck}/>
+                    <ErrorPopup openError={openError} handleCloseError={handleCloseError} theme={theme}/>
                     <Typography className={theme.welcome} variant="h3">Welcome, <span>{user.email}</span></Typography>
+                    <LogoutPopup logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme}/>
                     <DataTable/>
-                    <Button className={theme.button} variant="contained" onClick={Logout}>Logout</Button>
                 </div>
             ) : (
                 <div>            
                     <HeaderOut/>     
-                    <ErrorPopup open={open} handleClose={handleClose} theme={theme}/>
                     <LoginForm Login={Login} loginError={loginError} theme={theme}/>
                 </div>
             )}

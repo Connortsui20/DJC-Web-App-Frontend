@@ -9,7 +9,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
 
-export default function HeaderLoggedIn() {
+
+export default function HeaderLoggedIn({handleOpenLogoutCheck}) {
 
     const useStyles = makeStyles((theme) => ({
         
@@ -18,8 +19,13 @@ export default function HeaderLoggedIn() {
         },
 
         button: { //button colors
-            color: "white"
+            color: "white",
+            '&:hover': { //on hover
+                backgroundColor: '#0288D1', 
+            },
         },
+
+        
 
         right: { //justify exit icon on the right
             marginLeft: "auto"
@@ -36,7 +42,7 @@ export default function HeaderLoggedIn() {
                     <Button className={headerTheme.button}>
                         <AddIcon/>
                     </Button>
-                    <div className={headerTheme.right}><Button className={headerTheme.button}>
+                    <div className={headerTheme.right}><Button className={headerTheme.button} onClick={handleOpenLogoutCheck}>
                         <ExitToAppIcon/>
                     </Button></div>
                 </Toolbar>    

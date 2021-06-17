@@ -27,7 +27,7 @@ export default function HeaderLoggedOut() {
         <header>
             <AppBar className={headerTheme.header}>{
                 <Toolbar>
-                    <Typography variant="h6" className={headerTheme.title}>
+                    <Typography variant="h5" className={headerTheme.title}>
                         Delieverer Job Completion
                     </Typography>
                 </Toolbar>
