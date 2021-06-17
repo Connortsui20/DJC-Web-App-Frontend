@@ -12,8 +12,8 @@ import { Typography } from "@material-ui/core";
  
 function BarcodeScan({openBarcode, handleCloseBarcode, addBarcode, handleAddBarcode}) {
  
-  const saveBarcode = () => {
-    handleCloseBarcode();//just close for now
+  const saveBarcode = (savedCode) => {
+    handleCloseBarcode(savedCode);//just close for now
     //save the barcode into a hook or something
   }
  
@@ -28,16 +28,15 @@ function BarcodeScan({openBarcode, handleCloseBarcode, addBarcode, handleAddBarc
         width={400}
         height={300}
         onUpdate={(err, result) => {
-          if (result) handleAddBarcode(result.text)
-          else handleAddBarcode('Not Found')
+          if (result) {
+              saveBarcode(result.text);
+            }
+          else handleAddBarcode('Not Barcode Found');
         }}
       />
         <DialogActions>
             <Button onClick={handleCloseBarcode} color="primary" autoFocus>
                 Cancel
-            </Button>
-            <Button onClick={saveBarcode} color="primary" autoFocus>
-                Save
             </Button>
         </DialogActions>
 

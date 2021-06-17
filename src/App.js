@@ -1,17 +1,18 @@
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 
-import LoginForm from "./components/LoginForm"
 
-import HeaderIn from './components/HeaderLoggedIn';
-import HeaderOut from './components/HeaderLoggedOut';
-import DataTable from './components/DataTable';
-import ErrorPopup from './components/ErrorPopup';
-import LogoutPopup from './components/LogoutPopup';
-import BarcodeScan from "./components/BarcodeScan";
+import NoPageFound from "./components/NoPageFound";
+
+
+import LoginPage from "./LoginPage";
+import Home from "./Home";
+//import BarcodeScanPage from "./BarcodeScanPage";
 
 //import { Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
+import { useRoutes, navigate } from "hookrouter";
 
 
 
@@ -81,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
 function App() {
     
     const theme = useStyles();
@@ -96,10 +98,8 @@ function App() {
     
     const [user, setUser] = useState({email: "", password: ""});
     const [loginError, setLoginError] = useState("");
-
     const [logoutCheck, setLogoutCheck] = useState(false);
-    
-    
+        
     const handleOpenLogoutCheck = () => {
         setLogoutCheck(true);
     }
@@ -108,7 +108,6 @@ function App() {
         setLogoutCheck(false);
       };
 
-
     const Login = details => {
         if (details.email === adminUser.email && details.password === adminUser.password){    
                 setUser({email: details.email, password: details.password});
@@ -116,11 +115,11 @@ function App() {
             setLoginError("Incorrect Username or Password");
         }
     }
+
     const Logout = () => {
         setUser({email: "", password: ""});
         setLoginError("");
     }
-
 
 
     const [addBarcode, setAddBarcode] = useState("Not Found");
@@ -134,9 +133,6 @@ function App() {
         setOpenBarcode(false)
     }
 
-   
-    
-    
     const handleAddBarcode = (barcode) => {
         if (barcode) {
             setAddBarcode(barcode);
@@ -144,8 +140,6 @@ function App() {
             setAddBarcode("Not Found");
         }
     }
-
-
 
 
     //const [error, setError] = useState("");
@@ -157,39 +151,39 @@ function App() {
     };
 
 
-
-
-
-
-
-
-
-
-
+    const routes = {
+        "/home" : () => <Home handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
+                        openError={openError} handleCloseError={handleCloseError}
+                        openBarcode={openBarcode} handleCloseBarcode={handleCloseBarcode} addBarcode={addBarcode} handleAddBarcode={handleAddBarcode}
+                        logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme}
+                        />,
+        "/login" : () => <LoginPage Login={Login} loginError={loginError} theme={theme}/>,
+      };
+    
+    const routeResult = useRoutes(routes);
 
 
     return (
         
         <div className="App">
 
-            {(user.email !== "" && user.password !== "") ? (
-                <div>
-                    <HeaderIn handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}/>
-                    <ErrorPopup openError={openError} handleCloseError={handleCloseError} theme={theme}/>
-                    <BarcodeScan openBarcode={openBarcode} handleCloseBarcode={handleCloseBarcode} addBarcode={addBarcode} handleAddBarcode={handleAddBarcode}/>
-                    <LogoutPopup logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme}/>
-                    <DataTable/>
-                </div>
-            ) : (
-                <div>            
-                    <HeaderOut/>     
-                    <LoginForm Login={Login} loginError={loginError} theme={theme}/>
-                </div>
-            )}
+            {(user.email !== "" && user.password !== "") ? (navigate("/home")) : (navigate("/login"))}
+            {routeResult || <NoPageFound/>}    
 
         </div>
         
     );
+
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
