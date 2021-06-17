@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
 import { Typography } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
@@ -7,9 +7,9 @@ import Button from '@material-ui/core/Button';
 
 
 
-function LoginForm({Login, error, theme}) {
+function LoginForm({Login, loginError, theme}) {
     
-    const [details, setDetails] = useState({name: "", email: "", password: ""});
+    const [details, setDetails] = useState({email: "", password: ""});
     
     const submitHandler = e => {
         e.preventDefault(); //prevent page from re-rendering
@@ -25,7 +25,7 @@ function LoginForm({Login, error, theme}) {
                     <Typography variant="h1" className={theme.title}>Login</Typography>
                 </div>
                 
-                {(error !== "") ? (<div className={theme.error}>{<Typography variant="h6">{error}</Typography> }</div>) : ""} 
+                {(loginError !== "") ? (<div className={theme.errorText}>{<Typography variant="h5">{loginError}</Typography> }</div>) : ""} 
 
                 <div>
                     <TextField required className={theme.form} InputProps={{className: theme.formInput}} 

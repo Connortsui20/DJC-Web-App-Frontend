@@ -5,7 +5,7 @@ import LoginForm from "./components/LoginForm"
 import HeaderIn from './components/HeaderLoggedIn';
 import HeaderOut from './components/HeaderLoggedOut';
 import DataTable from './components/DataTable';
-//import ErrorPopup from './components/ErrorPopup'
+import ErrorPopup from './components/ErrorPopup'
 
 import Button from '@material-ui/core/Button';
 
@@ -61,15 +61,20 @@ const useStyles = makeStyles((theme) => ({
         }
     },
 
-    error: { //error message
+    errorText: { //error message
         color: "red",
         margin: theme.spacing(0, 1, 0)
-
     },
 
     welcome: { // welcome user message
         color: "black",
         marginTop: theme.spacing(15)
+    },
+
+    errorPopup: {
+        margin: theme.spacing(10,10,10),
+        alignItems: "center",
+        justifyContent: "center"
     }
 
 }));
@@ -88,27 +93,32 @@ function App() {
         password: "asdf"
     }
     
-    const [user, setUser] = useState({email: ""});
-    const [error, setError] = useState("");
+    const [user, setUser] = useState({email: "", password: ""});
+    const [loginError, setLoginError] = useState("");
 
     
-
-    
-
 
     const Login = details => {
         if (details.email === adminUser.email && details.password === adminUser.password){    
-                setUser({email: details.email});
-            }
-        else {
-            setError("Incorrect Username or Password");
+                setUser({email: details.email, password: details.password});
+        } else {
+            setLoginError("Incorrect Username or Password");
         }
     }
-    
     const Logout = () => {
-        setUser({email: ""});
-        setError("");
+        setUser({email: "", password: ""});
+        setLoginError("");
     }
+
+
+
+    const [error, setError] = useState("");
+
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     return (
         
@@ -122,10 +132,10 @@ function App() {
                     <Button className={theme.button} variant="contained" onClick={Logout}>Logout</Button>
                 </div>
             ) : (
-                <div>
-                    <HeaderOut/>
-                    
-                    <LoginForm Login={Login} error={error} theme={theme}/>
+                <div>            
+                    <HeaderOut/>     
+                    <ErrorPopup open={open} handleClose={handleClose} theme={theme}/>
+                    <LoginForm Login={Login} loginError={loginError} theme={theme}/>
                 </div>
             )}
 

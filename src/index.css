@@ -1,4 +1,4 @@
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: boarder-box;
@@ -140,11 +140,12 @@ form .form-inner input[type="submit"]:hover, .welcome button:hover{
     font-weight: 500;
     
 
-}
+} */
 
 
-
-
+.MuiDataGrid-renderingZone, .MuiDataGrid-root .MuiDataGrid-row {
+    width: 100% !important;
+  }
 
 
 
