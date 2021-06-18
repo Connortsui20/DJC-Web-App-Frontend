@@ -1,3 +1,9 @@
+.MuiDataGrid-renderingZone, .MuiDataGrid-root .MuiDataGrid-row {
+    width: 100% !important;
+    padding: 0px 1%;
+  }
+
+
 /* * {
     margin: 0;
     padding: 0;
@@ -142,11 +148,6 @@ form .form-inner input[type="submit"]:hover, .welcome button:hover{
 
 } */
 
-
-.MuiDataGrid-renderingZone, .MuiDataGrid-root .MuiDataGrid-row {
-    width: 100% !important;
-    padding: 0px 1%;
-  }
 
 
 

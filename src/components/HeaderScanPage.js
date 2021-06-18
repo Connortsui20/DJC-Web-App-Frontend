@@ -4,11 +4,10 @@ import { AppBar, Toolbar } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-import AddIcon from '@material-ui/icons/Add';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
-export default function HeaderLoggedIn({ handleOpenBarcode, handleOpenLogoutCheck }) {
+export default function HeaderScanPage({ handleCloseBarcode }) {
 
     const useStyles = makeStyles((theme) => ({
 
@@ -35,13 +34,10 @@ export default function HeaderLoggedIn({ handleOpenBarcode, handleOpenLogoutChec
         <header>
             <AppBar className={headerTheme.header}>{
                 <Toolbar>
-                    <Button className={headerTheme.button} onClick={handleOpenBarcode}>
-                        <AddIcon />
+                    <Button className={headerTheme.button} onClick={handleCloseBarcode}>
+                        <ArrowBackIcon />
                     </Button>
-                    <div className={headerTheme.right}>
-                        <Button className={headerTheme.button} onClick={handleOpenLogoutCheck}>
-                            <ExitToAppIcon />
-                        </Button></div>
+
                 </Toolbar>
             }</AppBar>
         </header>

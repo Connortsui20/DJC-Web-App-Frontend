@@ -1,43 +1,50 @@
 import React from 'react';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
-import Button from '@material-ui/core/Button';
+
+import HeaderScan from './components/HeaderScanPage';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 
-import { Typography } from "@material-ui/core";
+const useStyles = makeStyles((theme) => ({
+    camera: {
+
+        margin: theme.spacing(10, 0),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+
+}));
 
 
+export default function BarcodeScanPage({ handleCloseBarcode, addBarcode, handleAddBarcode }) {
 
-function BarcodeScanPage({handleCloseBarcode, addBarcode, handleAddBarcode}) {
-    
+    const scanTheme = useStyles();
+
     const saveBarcode = (savedCode) => {
-      handleAddBarcode(savedCode);
-      handleCloseBarcode();//just close for now
-      }
+        handleAddBarcode(savedCode); //save the code (in App.js)
+        handleCloseBarcode(); //return to home page once it is over
+    }
 
-      return(
-      <div>
-        <BarcodeScannerComponent
-        width={400}
-        height={300}
-        onUpdate={(err, savedCode) => { 
-          if (err) {
-            console.log("No Barcode Found DEBUG");
-          }
-          if (savedCode) {
-              saveBarcode(savedCode.text);
-            }
-        }} /> 
+    return (
+        <div>
+            <div>
+                <HeaderScan handleCloseBarcode={handleCloseBarcode} />
+            </div>
+            <div className={scanTheme.camera}>
+                <BarcodeScannerComponent
+                    width={"100%"}
+                    onUpdate={(err, savedCode) => {
+                        // if (err) {
+                        //     console.log("No Barcode Found DEBUG"); //for debugging
+                        // }
+                        if (savedCode) {
+                            saveBarcode(savedCode.text);
+                        }
+                    }} />
+            </div>
+        </div>
+    );
 
-      <div><Typography variant="subtitle1">{addBarcode}</Typography></div>
-      
-        <Button onClick={handleCloseBarcode} color="primary" autoFocus>
-                Cancel
-            </Button>
-      </div> 
-      
-
-      );
 }
-
-
-export default BarcodeScanPage;
