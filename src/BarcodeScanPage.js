@@ -31,7 +31,7 @@ export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode }
     }
 
     return (
-        <div style={{"background-color": "#000"}}>
+        <div style={{"backgroundColor": "#000"}}>
             <div>
                 <HeaderScan handleCloseBarcode={handleCloseBarcode} />
             </div>

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         color: "black",
         alignItems: "center",
         justifyContent: "center",
-        margin: theme.spacing(15, 0, 15)
+        margin: theme.spacing(10, 0, 10)
 
     },
 
