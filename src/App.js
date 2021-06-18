@@ -6,7 +6,6 @@ import Home from "./Home";
 import BarcodeScanPage from "./BarcodeScanPage";
 
 import { makeStyles } from '@material-ui/core/styles';
-//import { Typography } from "@material-ui/core";
 
 import { useRoutes, navigate } from "hookrouter";
 
@@ -68,8 +67,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(15)
     },
 
-
-
 }));
 
 
@@ -84,33 +81,32 @@ export default function App() {
         password: "asdf"
     }
 
-    const [user, setUser] = useState({ email: "", password: "" });
+    const [user, setUser] = useState({ email: "", password: "" }); //sets email and password after successful login
 
-    const [loginError, setLoginError] = useState("");
-    const [logoutCheck, setLogoutCheck] = useState(false);
+    const [loginError, setLoginError] = useState(""); //error message if email and password are incorrect
+    const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
 
-    //const [error, setError] = useState("");
-    const [openError, setOpenError] = useState(false);
+    //const [error, setError] = useState(""); //will eventually use this for error code 4xx/5xx from api
+    const [openError, setOpenError] = useState(false); //opens an error popup based on error and setError
 
-    const [openBarcode, setOpenBarcode] = useState(false);
+    const [openBarcode, setOpenBarcode] = useState(false); //open barcode scanning page
 
     const [rows, setRows] = useState([ //eventually will pull from a json file
         { id: "001", SubmitTime: '00:00' },
         { id: "002", SubmitTime: '00:00' },
         { id: "003", SubmitTime: '00:00' },
-
     ]);
 
 
-    const handleOpenLogoutCheck = () => {
+    const handleOpenLogoutCheck = () => { //opens logout popup
         setLogoutCheck(true);
     }
 
-    const handleCloseLogoutCheck = () => {
+    const handleCloseLogoutCheck = () => { //closes logout popup
         setLogoutCheck(false);
     };
 
-    const Login = details => {
+    const Login = details => { //sets user and email if correct, if not correct sends login error
         if (details.email === adminUser.email && details.password === adminUser.password) {
             setUser({ email: details.email, password: details.password });
         } else {
@@ -118,41 +114,40 @@ export default function App() {
         }
     }
 
-    const Logout = () => {
+    const Logout = () => { //logs out and clears email and password
         setUser({ email: "", password: "" });
         setLoginError("");
     }
 
-    const handleOpenBarcode = () => {
+    const handleOpenBarcode = () => { //opens barcode scanning page
         setOpenBarcode(true);
     }
-    const handleCloseBarcode = () => {
+    const handleCloseBarcode = () => { //closes barcode scanning page
         setOpenBarcode(false)
     }
 
-    const handleAddBarcode = (barcode) => {
+    const handleAddBarcode = (barcode) => { //adds the barcode once the scanner finds anything
         console.log("code added: ", barcode);
         setRows(rows => [{ id: barcode, SubmitTime: "00:01" }].concat(rows)); //must use .concat instead of .push, because it creates a new array instead of appending
     }
 
-    const handleCloseError = () => {
+    const handleCloseError = () => {  //closes error popup message
         setOpenError(false);
     };
 
 
-    const routes = {
+    const routes = { //all url routes
         "/home": () => <Home rows={rows} handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
             openError={openError} handleCloseError={handleCloseError}
-
             logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />,
         "/login": () => <LoginPage Login={Login} loginError={loginError} theme={theme} />,
         "/scan": () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode} />
     };
 
-    const routeResult = useRoutes(routes);
+    const routeResult = useRoutes(routes); //hook for hookrouter
 
 
-    return (
+    return ( //application starts here
         <div className="App">
             {(user.email !== "" && user.password !== "") ?
                 ((!openBarcode) ? (navigate("/home")) : (navigate("/scan"))

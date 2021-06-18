@@ -9,6 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 export default function ErrorPopup({ openError, handleCloseError, theme }) {
+    //openError is a boolean, true brings up the popup, false closes it
+    //handleCloseError closes the error popup
 
     return (
         <div><Dialog

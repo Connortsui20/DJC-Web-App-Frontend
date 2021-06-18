@@ -8,7 +8,9 @@ import AddIcon from '@material-ui/icons/Add';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
-export default function HeaderLoggedIn({ handleOpenBarcode, handleOpenLogoutCheck }) {
+export default function HeaderLoggedIn({ handleOpenBarcode, handleOpenLogoutCheck }) { 
+    //handleOpenBarcode opens barcode scanning page
+    //handleOpenLogoutCheck opens logout popup check
 
     const useStyles = makeStyles((theme) => ({
 

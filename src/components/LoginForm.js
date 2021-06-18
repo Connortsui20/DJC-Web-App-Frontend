@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 
 
 export default function LoginForm({ Login, loginError, theme }) {
+    //Login sets email and password, thus opening the home page
+    //loginError will show up if email and password are incorrect
 
     const [details, setDetails] = useState({ email: "", password: "" });
 

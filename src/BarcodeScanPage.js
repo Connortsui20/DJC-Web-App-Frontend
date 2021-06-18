@@ -18,7 +18,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function BarcodeScanPage({ handleCloseBarcode, addBarcode, handleAddBarcode }) {
+export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode }) {
+    //handleCloseBarcode closes the barcode scan page and return to home
+    //handleAddBarcode adds the barcode that is detected to the data list
 
     const scanTheme = useStyles();
 

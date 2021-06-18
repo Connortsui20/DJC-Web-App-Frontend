@@ -9,6 +9,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 export default function LogoutPopup({ logoutCheck, handleCloseLogoutCheck, Logout, theme }) {
+    //logoutCheck is a boolean, true brings up the popup, false closes it
+    //handleCloseLogoutCheck closes the logout popup check
+    //Logout returns to login page
 
     const closeLogoutWindow = () => {
         handleCloseLogoutCheck();
