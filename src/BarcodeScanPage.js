@@ -14,10 +14,8 @@ import { Typography } from "@material-ui/core";
 function BarcodeScanPage({handleCloseBarcode, addBarcode, handleAddBarcode}) {
     
     const saveBarcode = (savedCode) => {
-        handleAddBarcode(savedCode);
-        
-        handleCloseBarcode();//just close for now
-        //save the barcode into a hook or something
+      handleAddBarcode(savedCode);
+      handleCloseBarcode();//just close for now
       }
 
       return(
@@ -25,12 +23,15 @@ function BarcodeScanPage({handleCloseBarcode, addBarcode, handleAddBarcode}) {
         <BarcodeScannerComponent
         width={400}
         height={300}
-        onUpdate={(err, result) => {
-          if (result) {
-              saveBarcode(result.text);
+        onUpdate={(err, savedCode) => { 
+          if (err) {
+            console.log("No Barcode Found");
+          }
+          if (savedCode) {
+              saveBarcode(savedCode.text);
             }
-        }}
-      /> 
+        }} /> 
+
       <div><Typography variant="subtitle1">{addBarcode}</Typography></div>
       
         <Button onClick={handleCloseBarcode} color="primary" autoFocus>

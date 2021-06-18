@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -45,4 +45,4 @@ function BarcodeScan({openBarcode, handleCloseBarcode, addBarcode, handleAddBarc
   )
 }
  
-export default BarcodeScan;
+export default BarcodeScan;*/
