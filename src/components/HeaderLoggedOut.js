@@ -24,7 +24,7 @@ export default function HeaderLoggedOut() {
 
     return (
         <header>
-            <AppBar className={headerTheme.header}>{
+            <AppBar className={headerTheme.header} position="static">{
                 <Toolbar>
                     <Typography variant="subtitle1" className={headerTheme.title}>
                         Delieverer Job Completion

@@ -21,9 +21,6 @@ export default function ErrorPopup({ openError, handleCloseError, theme }) {
                 There is an error probably
             </DialogContentText></DialogContent>
             <DialogActions>
-                <Button onClick={handleCloseError} color="primary">
-                    +button?
-                </Button>
                 <Button onClick={handleCloseError} color="primary" autoFocus>
                     Ok
                 </Button>

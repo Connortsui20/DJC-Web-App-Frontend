@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { SportsRugbySharp } from "@material-ui/icons";
 
 
 export default function HeaderScanPage({ handleCloseBarcode }) {
@@ -13,6 +14,7 @@ export default function HeaderScanPage({ handleCloseBarcode }) {
 
         header: { //header color
             backgroundColor: "#039BE6",
+            
         },
 
         button: { //button colors
@@ -22,17 +24,13 @@ export default function HeaderScanPage({ handleCloseBarcode }) {
             },
         },
 
-        right: { //justify exit icon on the right
-            marginLeft: "auto"
-        }
-
     }));
 
     const headerTheme = useStyles();
 
     return (
         <header>
-            <AppBar className={headerTheme.header}>{
+            <AppBar className={headerTheme.header} position="static">{
                 <Toolbar>
                     <Button className={headerTheme.button} onClick={handleCloseBarcode}>
                         <ArrowBackIcon />
