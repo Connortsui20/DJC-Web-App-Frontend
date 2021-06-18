@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+/**************************************************************************************************************************/
 
 export default function App() {
 
@@ -93,7 +94,7 @@ export default function App() {
 
     const [rows, setRows] = useState([ //eventually will pull from a json file
         { id: "test1", SubmitTime: "00:10 PM" },
-        { id: "test2", SubmitTime: "00:02 AM" },
+        { id: "2test", SubmitTime: "00:02 AM" },
         { id: "test3", SubmitTime: "03:01 PM" },
     ]);
 
@@ -106,6 +107,7 @@ export default function App() {
         }
     });
 
+    /**************************************************************************************************************************/
 
     const handleOpenLogoutCheck = () => { //opens logout popup
         setLogoutCheck(true);
@@ -144,6 +146,7 @@ export default function App() {
         setOpenError(false);
     };
 
+    /**************************************************************************************************************************/
 
     const routes = { //all url routes
         "/home": () => <Home rows={rows} handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
