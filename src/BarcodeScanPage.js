@@ -12,8 +12,9 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(10, 0),
         display: "flex",
         alignItems: "center",
-        justifyContent: "center"
-    }
+        justifyContent: "center",
+        backgroundColor: "#000"
+    },
 
 }));
 
@@ -30,7 +31,7 @@ export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode }
     }
 
     return (
-        <div>
+        <div style={{"background-color": "#000"}}>
             <div>
                 <HeaderScan handleCloseBarcode={handleCloseBarcode} />
             </div>

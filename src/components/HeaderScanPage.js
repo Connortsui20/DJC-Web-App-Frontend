@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { SportsRugbySharp } from "@material-ui/icons";
 
 
 export default function HeaderScanPage({ handleCloseBarcode }) {
