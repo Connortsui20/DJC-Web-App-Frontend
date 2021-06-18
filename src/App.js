@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
+import React, { useState } from "react";
+
 
 
 import NoPageFound from "./components/NoPageFound";
@@ -124,7 +124,7 @@ function App() {
 
 
    
-    const [addBarcode, setAddBarcode] = useState("No Barcode Found");
+    
     const [openBarcode, setOpenBarcode] = useState(false);
 
     const handleOpenBarcode = () => {
@@ -141,36 +141,23 @@ function App() {
         { id: "001", SubmitTime: '00:00' },
         { id: "002", SubmitTime: '00:00' },
         { id: "003", SubmitTime: '00:00' },
-        { id: "004", SubmitTime: '00:00' },
-        { id: "005", SubmitTime: '00:00' },
-        { id: "006", SubmitTime: '00:00' },
-        { id: "007", SubmitTime: '00:00' },
-        { id: "008", SubmitTime: '00:00' },
-        { id: "009", SubmitTime: '00:00' },
-        { id: "010", SubmitTime: '00:00' },
-        { id: "011", SubmitTime: '00:00' },
-        { id: "012", SubmitTime: '00:00' },
+      
     ]);
     
     const handleAddBarcode = (barcode) => {
-        console.log(barcode)
-        //PushBarcode(barcode);
-        console.log(rows);
-        setAddBarcode(barcode);   
-        //setShouldUpdate(true);
+         
+        PushBarcode(barcode);
+       
     }
 
-    // useEffect(() => {
-    //     //rows.push({ id: barcode, SubmitTime: '00:01' });
-    //     setRows({ id: "12313", SubmitTime: '00:01' });
-    // }, []);
+    
 
     const PushBarcode = (barcode) => {
-        console.log("Something happened");
-        
-        console.log(rows);
+        console.log("code added: ", barcode);
+        setRows(rows => rows.concat( [{ id: barcode, SubmitTime: "00:01" }]));
+       
     }
-
+    console.log(rows);
     //const [error, setError] = useState("");
 
     const [openError, setOpenError] = useState(false);
@@ -185,10 +172,10 @@ function App() {
     const routes = {
         "/home" : () => <Home rows = {rows} handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
                         openError={openError} handleCloseError={handleCloseError}
-                        addBarcode={addBarcode}
+                        
                         logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme}/>,
         "/login" : () => <LoginPage Login={Login} loginError={loginError} theme={theme}/>,
-        "/scan" : () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} addBarcode={addBarcode} handleAddBarcode={handleAddBarcode}/>
+        "/scan" : () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode}/>
       };
     
     const routeResult = useRoutes(routes);
