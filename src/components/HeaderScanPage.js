@@ -1,10 +1,10 @@
 import React from "react";
 
 import { AppBar, Toolbar } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 
 export default function HeaderScanPage({ handleCloseBarcode }) {
@@ -17,8 +17,8 @@ export default function HeaderScanPage({ handleCloseBarcode }) {
 
         button: { //button colors
             color: "white",
-            '&:hover': { //on hover
-                backgroundColor: '#0288D1',
+            "&:hover": { //on hover
+                backgroundColor: "#0288D1",
             },
         },
 

@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-import Container from '@material-ui/core/Container';
+import Container from "@material-ui/core/Container";
 
-import '@fontsource/roboto';
+import "@fontsource/roboto";
 
 
 ReactDOM.render(
@@ -27,7 +27,7 @@ ReactDOM.render(
         </React.StrictMode>
     </body>,
     
-    document.getElementById('root')
+    document.getElementById("root")
 
 );
 

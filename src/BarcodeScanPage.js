@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 
-import HeaderScan from './components/HeaderScanPage';
+import HeaderScan from "./components/HeaderScanPage";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 
 const useStyles = makeStyles((theme) => ({

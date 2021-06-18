@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import NoPageFound from "./components/NoPageFound";
 import LoginPage from "./LoginPage";
 import Home from "./Home";
 import BarcodeScanPage from "./BarcodeScanPage";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useRoutes, navigate } from "hookrouter";
 
@@ -13,7 +13,7 @@ import { useRoutes, navigate } from "hookrouter";
 const useStyles = makeStyles((theme) => ({
 
     form: { //form text box
-        width: '100%',
+        width: "100%",
         margin: theme.spacing(2, 0),
         color: "#D7DCDF",
     },
@@ -39,9 +39,9 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
         textTransform: "none",
         backgroundColor: "#B4B4B4",
-        '&:hover': { //on hover
-            backgroundColor: '#D7DCDF', //what color should this be?
-            color: '#white',
+        "&:hover": { //on hover
+            backgroundColor: "#D7DCDF", //what color should this be?
+            color: "#white",
         }
     },
 
@@ -51,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
         textTransform: "none",
         backgroundColor: "#5093F2",
-        '&:hover': { //on hover
-            backgroundColor: '#0288D1',
-            color: '#white',
+        "&:hover": { //on hover
+            backgroundColor: "#0288D1",
+            color: "#white",
         }
     },
 
@@ -92,10 +92,19 @@ export default function App() {
     const [openBarcode, setOpenBarcode] = useState(false); //open barcode scanning page
 
     const [rows, setRows] = useState([ //eventually will pull from a json file
-        { id: "001", SubmitTime: '00:00' },
-        { id: "002", SubmitTime: '00:00' },
-        { id: "003", SubmitTime: '00:00' },
+        { id: "test1", SubmitTime: "00:10 PM" },
+        { id: "test2", SubmitTime: "00:02 AM" },
+        { id: "test3", SubmitTime: "03:01 PM" },
     ]);
+
+    const [date, setDate] = useState(new Date()); //gets the date and time
+
+    useEffect(() => {
+        var timer = setInterval(() => setDate(new Date()), 60000) //pulls date every minute
+        return function cleanup() {
+            clearInterval(timer)
+        }
+    });
 
 
     const handleOpenLogoutCheck = () => { //opens logout popup
@@ -127,8 +136,8 @@ export default function App() {
     }
 
     const handleAddBarcode = (barcode) => { //adds the barcode once the scanner finds anything
-        console.log("code added: ", barcode);
-        setRows(rows => [{ id: barcode, SubmitTime: "00:01" }].concat(rows)); //must use .concat instead of .push, because it creates a new array instead of appending
+        setDate(new Date()); //This doesn't do anything and it still doesn't work properly, it will take the time that the user opens the scan page but not when they actually scan
+        setRows(rows => [{ id: barcode, SubmitTime: date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }].concat(rows)); //must use .concat instead of .push, because it creates a new array instead of appending
     }
 
     const handleCloseError = () => {  //closes error popup message
