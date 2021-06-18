@@ -150,14 +150,14 @@ function App() {
        
     }
 
-    
 
     const PushBarcode = (barcode) => {
         console.log("code added: ", barcode);
-        setRows(rows => rows.concat( [{ id: barcode, SubmitTime: "00:01" }]));
+        setRows(rows => [{ id: barcode, SubmitTime: "00:01" }].concat(rows)); //must use .concat instead of .push, because it creates a new array instead of appending
        
     }
-    console.log(rows);
+    
+
     //const [error, setError] = useState("");
 
     const [openError, setOpenError] = useState(false);
