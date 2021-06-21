@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "barcodescans",
+  "info": {
+    "name": "barcodescan"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "users_permissions_user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "barcodescans"
+    },
+    "date": {
+      "required": true,
+      "unique": true,
+      "type": "datetime"
+    },
+    "barcode": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    }
+  }
+}
