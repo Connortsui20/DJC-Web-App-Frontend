@@ -40,12 +40,12 @@ const useStyles = makeStyles((theme) => ({
         textTransform: "none",
         backgroundColor: "#B4B4B4",
         "&:hover": { //on hover
-            backgroundColor: "#D7DCDF", //what color should this be?
+            backgroundColor: "#D7DCDF",
             color: "#white",
         }
     },
 
-    button: { //needs to be the same as empty button except different background color
+    button: { //* needs to be the same as emptyButton except different backgroundColor
         width: "100%",
         margin: theme.spacing(3, 0, 5),
         color: "white",
@@ -87,21 +87,22 @@ export default function App() {
     const [loginError, setLoginError] = useState(""); //error message if email and password are incorrect
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
 
-    //const [error, setError] = useState(""); //will eventually use this for error code 4xx/5xx from api
+    //const [error, setError] = useState(""); //TODO will eventually use this for error code 4xx/5xx from api
     const [openError, setOpenError] = useState(false); //opens an error popup based on error and setError
 
     const [openBarcode, setOpenBarcode] = useState(false); //open barcode scanning page
 
-    const [rows, setRows] = useState([ //eventually will pull from a json file
+    const [rows, setRows] = useState([ //TODO eventually will pull from a json file
         { id: "test1", SubmitTime: "00:10 PM" },
         { id: "2test", SubmitTime: "00:02 AM" },
         { id: "test3", SubmitTime: "03:01 PM" },
     ]);
+    
 
-    const [date, setDate] = useState(new Date()); //gets the date and time
+    const [date, setDate] = useState(new Date()); //gets the date and time //! this only works on the opening of the scan page, not after the scan happens
 
     useEffect(() => {
-        var timer = setInterval(() => setDate(new Date()), 60000) //pulls date every minute
+        var timer = setInterval(() => setDate(new Date()), 60000) //pulls date every minute //? not sure how to make this more accurate
         return function cleanup() {
             clearInterval(timer)
         }
@@ -138,9 +139,10 @@ export default function App() {
     }
 
     const handleAddBarcode = (barcode) => { //adds the barcode once the scanner finds anything
-        setDate(new Date()); //This doesn't do anything and it still doesn't work properly, it will take the time that the user opens the scan page but not when they actually scan
-        setRows(rows => [{ id: barcode, SubmitTime: date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }].concat(rows)); //must use .concat instead of .push, because it creates a new array instead of appending
+        setDate(new Date()); //! This doesn't do anything and it still doesn't work properly, it will take the time that the user opens the scan page but not when they actually scan
+        setRows(rows => [{ id: barcode, SubmitTime: date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }].concat(rows)); //* must use .concat instead of .push, because it creates a new array instead of appending
     }
+    //console.table(rows);
 
     const handleCloseError = () => {  //closes error popup message
         setOpenError(false);
