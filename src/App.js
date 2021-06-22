@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import NoPageFound from "./components/NoPageFound";
-import LoginPage from "./LoginPage";
-import Home from "./Home";
-import BarcodeScanPage from "./BarcodeScanPage";
+import LoginPage from "./pages/LoginPage";
+import Home from "./pages/Home";
+import BarcodeScanPage from "./pages/BarcodeScanPage";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -76,13 +76,13 @@ export default function App() {
     const theme = useStyles();
 
     const adminUser = {
-        //email: "admin@admin.com",
-        //password: "admin123"
-        email: "c@c",
-        password: "asdf"
+        email: "admin@admin.com",
+        password: "Admin123"
     }
 
     const [user, setUser] = useState({ email: "", password: "" }); //sets email and password after successful login
+
+    const [token, setToken] = useState("")
 
     const [loginError, setLoginError] = useState(""); //error message if email and password are incorrect
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check

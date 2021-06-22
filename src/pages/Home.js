@@ -1,7 +1,7 @@
-import HeaderIn from "./components/HeaderLoggedIn";
-import ErrorPopup from "./components/ErrorPopup";
-import LogoutPopup from "./components/LogoutPopup";
-import DataTable from "./components/DataTable";
+import HeaderIn from "../components/HeaderLoggedIn";
+import ErrorPopup from "../components/ErrorPopup";
+import LogoutPopup from "../components/LogoutPopup";
+import DataTable from "../components/DataTable";
 
 import { makeStyles } from "@material-ui/core/styles";
 

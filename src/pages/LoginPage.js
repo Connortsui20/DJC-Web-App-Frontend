@@ -1,5 +1,5 @@
-import LoginForm from "./components/LoginForm"
-import HeaderOut from "./components/HeaderLoggedOut";
+import LoginForm from "../components/LoginForm"
+import HeaderOut from "../components/HeaderLoggedOut";
 
 import { makeStyles } from "@material-ui/core/styles";
 
