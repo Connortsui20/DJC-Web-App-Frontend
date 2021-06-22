@@ -43,14 +43,18 @@ module.exports = {
         
         else {
 
-            //ctx.state.query = qs.parse(ctx.querystring);
-            //let data = qs.parse(ctx.querystring);
 
-            ctx.state.query = qs.parse(ctx.querystring)
-            console.log(ctx.state.query={id:1});
+            const userID = 1; //TODO get the user id somehow from the api
             
-            entities = await strapi.services.barcodescan.find(ctx.state.query);
+            ctx.state.query = qs.parse(ctx.state.querystring=`users_permissions_user.id=${userID}`)
+             //? This outputs a lot of data, even if it is filtered.
+             //? For performance concerns, do I need to filter that out as well?
+            
+            console.log("header", ctx.headers);
 
+
+            entities = await strapi.services.barcodescan.find(ctx.state.query);
+            //console.log(entities);
             //console.log("entities", entities);
             // const newArray = entities.filter(function (barcode) {
             //     return (barcode.users_permissions_user.id == 2);
