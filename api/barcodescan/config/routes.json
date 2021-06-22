@@ -2,13 +2,13 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/barcodescans/custom",
-      "handler": "barcodescan.custom",
+      "path": "/barcodescans/userbarcodes",
+      "handler": "barcodescan.userbarcodes",
       "config": {
         "policies": []
       }
     },
-    
+   
     {
       "method": "GET",
       "path": "/barcodescans",
