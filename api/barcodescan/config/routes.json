@@ -2,6 +2,15 @@
   "routes": [
     {
       "method": "GET",
+      "path": "/barcodescans/custom",
+      "handler": "barcodescan.custom",
+      "config": {
+        "policies": []
+      }
+    },
+    
+    {
+      "method": "GET",
       "path": "/barcodescans",
       "handler": "barcodescan.find",
       "config": {
