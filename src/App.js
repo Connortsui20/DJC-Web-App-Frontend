@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import BarcodeScanPage from "./pages/BarcodeScanPage";
 
 import LoginGetToken from "./apiFunctions/LoginGetToken";
+import GetData from "./apiFunctions/GetData";
+import CreateBarcode from "./apiFunctions/CreateBarcode";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -80,7 +82,7 @@ export default function App() {
 
     //const [user, setUser] = useState({ email: "", password: "" }); //sets email and password after successful login
 
-    const [token, setToken] = useState("")
+    const [token, setToken] = useState("");
 
     const [loginError, setLoginError] = useState(""); //error message if email and password are incorrect
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
@@ -90,21 +92,38 @@ export default function App() {
 
     const [openBarcode, setOpenBarcode] = useState(false); //open barcode scanning page
 
-    const [rows, setRows] = useState([ //TODO eventually will pull from a json file
-        { id: "test1", SubmitTime: "00:10 PM" },
-        { id: "2test", SubmitTime: "00:02 AM" },
-        { id: "test3", SubmitTime: "03:01 PM" },
-    ]);
-    
+
+
+
+    //const GetRows = (token, pageNumber, pageSize) => {
+
+    const pageNumber = 1;
+    const pageSize = 3;
+
+    //const [rows, setRows] = useState([]); //TODO eventually will pull from a api
+    const rows = [];
+
+    const data = GetData(token, pageNumber, pageSize);
+    console.log(data);
+
+    // const [rows, setRows] = useState([ //TODO eventually will pull from a api
+    //     { id: "test1", SubmitTime: "00:10 PM" },
+    //     { id: "2test", SubmitTime: "00:02 AM" },
+    //     { id: "test3", SubmitTime: "03:01 PM" },
+    // ]);
+
 
     const [date, setDate] = useState(new Date()); //gets the date and time //! this only works on the opening of the scan page, not after the scan happens
 
-    useEffect(() => {
-        var timer = setInterval(() => setDate(new Date()), 60000) //pulls date every minute //? not sure how to make this more accurate
-        return function cleanup() {
-            clearInterval(timer)
-        }
-    });
+    // useEffect(() => {
+
+    //     const getRows = async () => {
+    //         const data = await GetData(token, pageNumber, pageSize);
+    //         setRows(data);
+    //     }
+
+    //     getRows();
+    // }, []);
 
     /**************************************************************************************************************************/
 
@@ -116,24 +135,27 @@ export default function App() {
         setLogoutCheck(false);
     };
 
-    const Login = (details) => { //TODO login with strapi api
+    const Login = async (details) => { //? Do I need to add specific error functionality?
 
-        const tokenPromise = LoginGetToken(details) //jwt is the promise
-        
-        tokenPromise.then((jwtToken) => {
-            if (jwtToken !== ""){
-                setToken(jwtToken);
-            } else {
-                setLoginError("Incorrect Username or Password");
-            }
+        const jwtToken = await LoginGetToken(details)
+
+        if (jwtToken.error === null) {
+            console.log("No login error!");
+            setToken(jwtToken.token);
             
-        })
 
-        tokenPromise.catch((error) => {
-            console.error(error);
-        })
-
+        } else { // (if jwtToken has something)
+            setLoginError("Incorrect login details"); //TODO this doesnt work probably bc error is an object
+        }
     }
+
+
+
+
+
+
+
+
 
     const Logout = () => { //logs out and clears email and password
         //setUser({ email: "", password: "" });
@@ -149,14 +171,20 @@ export default function App() {
     }
 
     const handleAddBarcode = (barcode) => { //adds the barcode once the scanner finds anything
+
+        const newBarcode = CreateBarcode(token, barcode, "2021-03-16 04:00:00");//TODO figure out how to get from time, maybe have to pass through something
+        //TODO implement moment.js
         setDate(new Date()); //! This doesn't do anything and it still doesn't work properly, it will take the time that the user opens the scan page but not when they actually scan
-        setRows(rows => [{ id: barcode, SubmitTime: date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }].concat(rows)); //* must use .concat instead of .push, because it creates a new array instead of appending
+        //setRows(rows => [{ id: barcode, SubmitTime: date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }].concat(rows)); //* must use .concat instead of .push, because it creates a new array instead of appending
+
+
     }
     //console.table(rows);
 
     const handleCloseError = () => {  //closes error popup message
         setOpenError(false);
     };
+
 
     /**************************************************************************************************************************/
 
@@ -173,7 +201,7 @@ export default function App() {
 
     return ( //application starts here
         <div className="App">
-            {(token !== "") ?
+            {(token !== "" && token !== null && token !== undefined) ?
                 ((!openBarcode) ? (navigate("/home")) : (navigate("/scan"))
                 ) : (navigate("/login"))}
             {routeResult || <NoPageFound />}

@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+
 import HeaderIn from "../components/HeaderLoggedIn";
 import ErrorPopup from "../components/ErrorPopup";
 import LogoutPopup from "../components/LogoutPopup";
@@ -6,7 +8,7 @@ import DataTable from "../components/DataTable";
 import { makeStyles } from "@material-ui/core/styles";
 
 
-export default function Home({ rows, Logout, handleOpenBarcode, handleOpenLogoutCheck, openError, handleCloseError,
+export default function Home({  Logout, handleOpenBarcode, handleOpenLogoutCheck, openError, handleCloseError,
     logoutCheck, handleCloseLogoutCheck, theme }) {
 
         const useStyles = makeStyles((theme) => ({
@@ -17,6 +19,13 @@ export default function Home({ rows, Logout, handleOpenBarcode, handleOpenLogout
     
         }));
     
+        const [rows, setRows] = useState([]);
+        /*
+        use useEffect() to call the api with GetData();
+        pass through barcode, pass through token 
+        */ 
+
+
         const tableTheme = useStyles();
 
     return (
