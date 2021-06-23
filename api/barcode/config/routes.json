@@ -8,6 +8,16 @@
         "policies": []
       }
     },
+
+    {
+      "method": "POST",
+      "path": "/barcodes/createbarcode",
+      "handler": "barcode.createbarcode",
+      "config": {
+        "policies": []
+      }
+    },
+    
     
     {
       "method": "GET",

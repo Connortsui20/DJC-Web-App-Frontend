@@ -10,12 +10,12 @@ const { sanitizeEntity } = require('strapi-utils');
 
 module.exports = {
 
-    //! CUSTOM CODE IN HERE: async {custom name}(ctx) { custom code }
     async userbarcodes(ctx) {
 
         //const jwt = ctx.header="Authorization";
 
         let entities;
+        let newArray; //!change name
 
         if (ctx.query._q) {
             entities = await strapi.services.barcode.search(ctx.query);
@@ -34,16 +34,24 @@ module.exports = {
 
             //TODO Look at http://knexjs.org/#Builder
 
+            
             entities = await strapi.services.barcode.find(ctx.state.query);
-
 
             //console.log("%c this should be the header:",  ctx.header)            
             //console.log("%c this should be a user:",  ctx.state.user);
             //console.log("entities:", entities);
+            newArray = entities.map(item => {
+
+                let newItem = ({
+                    ...item
+                });
+                delete newItem.users_permissions_user;
+                return newItem;
+            })
 
         }
 
-        const finalArray = entities.map(entity => sanitizeEntity(entity, { model: strapi.models.barcode }));
+        const finalArray = newArray.map(entity => sanitizeEntity(entity, { model: strapi.models.barcode }));
         //finalArray.push([ctx.header]);
 
 
@@ -51,24 +59,25 @@ module.exports = {
         return (finalArray);
     },
 
-    // async createbarcode(ctx) {
+    async createbarcode(ctx) { //the same as the create api
 
-    //     let entity;
+        let entity;
+        const userID = ctx.state.user.id;
+        //console.log(ctx.request.body);
+        if (ctx.is('multipart')) {
+            const { data, files } = parseMultipartData(ctx);
+            entity = await strapi.services.barcode.create(data, { files });
 
-    //     if (ctx.is('multipart')) {
-    //         const { data, files } = parseMultipartData(ctx);
-    //         entity = await strapi.services.barcode.create(data, { files });
-    //     } else {
-    //         entity = await strapi.services.barcode.create(ctx.request.body);
-    //     }
-    //     return sanitizeEntity(entity, { model: strapi.models.restaurant });
+        } else {
+            ctx.request.body['users_permissions_user'] = { id: userID };
+            entity = await strapi.services.barcode.create(ctx.request.body);
+        }
 
+        const finalBarcode = sanitizeEntity(entity, { model: strapi.models.barcode });
 
+        return finalBarcode;
 
-
-
-
-    // },
+    },
 
 
 
