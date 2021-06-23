@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "barcodescans",
+  "collectionName": "barcodes",
   "info": {
-    "name": "barcodescan"
+    "name": "barcode"
   },
   "options": {
     "increments": true,
@@ -11,20 +11,18 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "number": {
+      "type": "string",
+      "required": true
+    },
     "users_permissions_user": {
       "plugin": "users-permissions",
       "model": "user",
-      "via": "barcodescans"
+      "via": "barcodes"
     },
-    "date": {
-      "required": true,
-      "unique": true,
-      "type": "datetime"
-    },
-    "barcode": {
-      "type": "string",
-      "required": true,
-      "unique": false
+    "time": {
+      "type": "datetime",
+      "required": true
     }
   }
 }

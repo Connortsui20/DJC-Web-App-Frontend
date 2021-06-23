@@ -59,9 +59,9 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "barcodescans": {
+    "barcodes": {
       "via": "users_permissions_user",
-      "collection": "barcodescan"
+      "collection": "barcode"
     }
   }
 }

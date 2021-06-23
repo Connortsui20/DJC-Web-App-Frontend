@@ -2,57 +2,57 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/barcodescans/userbarcodes",
-      "handler": "barcodescan.userbarcodes",
+      "path": "/barcodes/userbarcodes",
+      "handler": "barcode.userbarcodes",
       "config": {
         "policies": []
       }
     },
-   
+    
     {
       "method": "GET",
-      "path": "/barcodescans",
-      "handler": "barcodescan.find",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "GET",
-      "path": "/barcodescans/count",
-      "handler": "barcodescan.count",
+      "path": "/barcodes",
+      "handler": "barcode.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/barcodescans/:id",
-      "handler": "barcodescan.findOne",
+      "path": "/barcodes/count",
+      "handler": "barcode.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/barcodes/:id",
+      "handler": "barcode.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/barcodescans",
-      "handler": "barcodescan.create",
+      "path": "/barcodes",
+      "handler": "barcode.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/barcodescans/:id",
-      "handler": "barcodescan.update",
+      "path": "/barcodes/:id",
+      "handler": "barcode.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/barcodescans/:id",
-      "handler": "barcodescan.delete",
+      "path": "/barcodes/:id",
+      "handler": "barcode.delete",
       "config": {
         "policies": []
       }

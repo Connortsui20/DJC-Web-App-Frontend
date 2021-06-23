@@ -5,14 +5,4 @@
  * to customize this service
  */
 
-module.exports = {
-
-    // find(params, populate) {
-    //     return strapi.query('barcodescan').find(params, populate);
-    //   },
-
-
-
-
-
-};
+module.exports = {};
