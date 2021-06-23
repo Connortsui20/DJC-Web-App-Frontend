@@ -11,6 +11,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
     "barcode-react-scanner": "^1.2.0",
     "hookrouter": "^1.2.5",
     "react": "^17.0.2",

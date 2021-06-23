@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 import NoPageFound from "./components/NoPageFound";
+
 import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
 import BarcodeScanPage from "./pages/BarcodeScanPage";
+
+import LoginGetToken from "./apiFunctions/LoginGetToken";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -75,12 +78,7 @@ export default function App() {
 
     const theme = useStyles();
 
-    const adminUser = {
-        email: "admin@admin.com",
-        password: "Admin123"
-    }
-
-    const [user, setUser] = useState({ email: "", password: "" }); //sets email and password after successful login
+    //const [user, setUser] = useState({ email: "", password: "" }); //sets email and password after successful login
 
     const [token, setToken] = useState("")
 
@@ -118,16 +116,28 @@ export default function App() {
         setLogoutCheck(false);
     };
 
-    const Login = details => { //sets user and email if correct, if not correct sends login error
-        if (details.email === adminUser.email && details.password === adminUser.password) {
-            setUser({ email: details.email, password: details.password });
-        } else {
-            setLoginError("Incorrect Username or Password");
-        }
+    const Login = (details) => { //TODO login with strapi api
+
+        const tokenPromise = LoginGetToken(details) //jwt is the promise
+        
+        tokenPromise.then((jwtToken) => {
+            if (jwtToken !== ""){
+                setToken(jwtToken);
+            } else {
+                setLoginError("Incorrect Username or Password");
+            }
+            
+        })
+
+        tokenPromise.catch((error) => {
+            console.error(error);
+        })
+
     }
 
     const Logout = () => { //logs out and clears email and password
-        setUser({ email: "", password: "" });
+        //setUser({ email: "", password: "" });
+        setToken(""); //? How should the user logout? by clearing the token or changing pages?
         setLoginError("");
     }
 
@@ -163,7 +173,7 @@ export default function App() {
 
     return ( //application starts here
         <div className="App">
-            {(user.email !== "" && user.password !== "") ?
+            {(token !== "") ?
                 ((!openBarcode) ? (navigate("/home")) : (navigate("/scan"))
                 ) : (navigate("/login"))}
             {routeResult || <NoPageFound />}
