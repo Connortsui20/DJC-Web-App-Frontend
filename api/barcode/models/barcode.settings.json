@@ -11,18 +11,18 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "number": {
+    "delivery_note_number": {
       "type": "string",
+      "required": true
+    },
+    "submission_date": {
+      "type": "datetime",
       "required": true
     },
     "users_permissions_user": {
       "plugin": "users-permissions",
       "model": "user",
       "via": "barcodes"
-    },
-    "time": {
-      "type": "datetime",
-      "required": true
     }
   }
 }
