@@ -78,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**************************************************************************************************************************/
+//TODO add local storage functionality, store the jwt token
+//TODO make the error popups more robust, add the function to the other places, decide what to do on login page error
+//TODO figure out how the data table page numbers work
 
 export default function App() {
 
@@ -88,24 +91,14 @@ export default function App() {
 
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
 
+    //! Should I make it so that every time setError is called the popup comes up automatically? right now the error is set and then the popup is opened
     const [error, setError] = useState(""); //TODO use this for every type of error (except login errors for now)
     const [openError, setOpenError] = useState(false); //opens an error popup based on error and setError
 
-    //! Every source of error: examples
-    /* 
-    Login page: email or password is wrong
-    Home page: unable to retrieve data table, or token doesn't work
-    Scan page: unable to create/post a new barcode to api
-    API doesn't respond at all
-    Forbidden access?
-    */
-
     const [openBarcode, setOpenBarcode] = useState(false); //open barcode scanning page
 
-    const [rows, setRows] = useState([]);
-
     const [date, setDate] = useState(moment().format()); //gets the date and time 
-
+    const [rows, setRows] = useState([]);
 
     /**************************************************************************************************************************/
 
@@ -136,7 +129,7 @@ export default function App() {
 
     function convertTime(arr) {
         for (var i in arr) {
-            arr[i].submission_date = moment(arr[i].submission_date).format('DD/MM/YYYY HH:mm:ss');
+            arr[i].submission_date = moment(arr[i].submission_date).format('HH:mm:ss, DD/MM/YYYY');
         }
     }
 
@@ -151,8 +144,13 @@ export default function App() {
 
     const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
         setDate(moment().format()); //! The only point in having date and setDate is to update useEffect() in Home.js, there is definitely a better way to do this
-        await CreateBarcode(token, barcode, moment().format());
-    };
+        await CreateBarcode(token, barcode, moment().format()) 
+        .catch(error => {
+            setError(error);
+            setOpenError(true);
+        });
+
+    }; //* it does not matter how the time is formatted here because api will conver it anyways, must convert time when reading from api
 
     const handleCloseError = () => { setOpenError(false); }; //closes error popup message
     const handleResetError = () => { setError(""); };
