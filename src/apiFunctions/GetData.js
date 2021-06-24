@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import moment from 'moment';
+import 'moment-timezone';
+
 
 export default async function GetData(jwtToken, pageNumber, pageSize) {
 
@@ -17,7 +20,7 @@ export default async function GetData(jwtToken, pageNumber, pageSize) {
                     `Bearer ${jwtToken}`
             },
         });
-        //console.log("%c Data table", "color: green", data);
+        console.log("%c Data table", "color: green", data);
 
         rows = data.map(e =>
         ({

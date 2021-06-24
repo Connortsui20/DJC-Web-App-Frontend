@@ -4,6 +4,7 @@ import axios from 'axios';
 export default async function CreateBarcode(jwtToken, barcodeNumber, time) {
 
     //barcodeNumber 
+    //console.log(time);
 
     const { data } = await axios
         .post("http://localhost:1337/barcodes/createbarcode", //TODO change the url in the backend to a custom one

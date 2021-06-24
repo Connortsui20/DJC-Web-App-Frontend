@@ -14,6 +14,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useRoutes, navigate } from "hookrouter";
 
+import moment from 'moment';
+import 'moment-timezone';
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -80,11 +83,9 @@ export default function App() {
 
     const theme = useStyles();
 
-    //const [user, setUser] = useState({ email: "", password: "" }); //sets email and password after successful login
-
     const [token, setToken] = useState("");
-
     const [loginError, setLoginError] = useState(""); //error message if email and password are incorrect
+
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
 
     //const [error, setError] = useState(""); //TODO will eventually use this for error code 4xx/5xx from api
@@ -94,29 +95,8 @@ export default function App() {
 
     const [rows, setRows] = useState([]);
 
+    const [date, setDate] = useState(moment().format()); //gets the date and time 
 
-
-
-
-
-    // const [rows, setRows] = useState([ //TODO eventually will pull from a api
-    //     { delivery_note_number: "test1", submission_date: "00:10 PM" },
-    //     { delivery_note_number: "2test", submission_date: "00:02 AM" },
-    //     { delivery_note_number: "test3", submission_date: "03:01 PM" },
-    // ]);
-
-
-    const [date, setDate] = useState(new Date()); //gets the date and time //! this only works on the opening of the scan page, not after the scan happens
-
-    // useEffect(() => {
-
-    //     const getRows = async () => {
-    //         const data = await GetData(token, pageNumber, pageSize);
-    //         setRows(data);
-    //     }
-
-    //     getRows();
-    // }, []);
 
     /**************************************************************************************************************************/
 
@@ -128,7 +108,7 @@ export default function App() {
         setLogoutCheck(false);
     };
 
-    const Login = async (details) => { //? Do I need to add specific error functionality?
+    const Login = async (details) => {
 
         const jwtToken = await LoginGetToken(details);
 
@@ -136,27 +116,35 @@ export default function App() {
             console.log("No login error!");
             setToken(jwtToken.token);
         } else { // (if jwtToken has something)
-            setLoginError("Incorrect login details"); //TODO this doesnt work probably bc error is an object
+            setLoginError("Incorrect login details"); //TODO add exact error functionality
         }
+
     }
 
     const GetRows = async (token) => {
-        const pageNumber = 1;
+        const pageNumber = 1; //TODO figure out page number functionality, maybe pass through function
         const pageSize = 5;
-
         const data = await GetData(token, pageNumber, pageSize);
-
         if (data.error === null) {
-            console.log("No data error");
+            //console.log("No data error");
+            convertTime(data.rows);
             setRows(data.rows);
+            console.table(data.rows);
+
         } else {
             console.error("something is wrong with the rows")
         }
     }
 
+    function convertTime(arr) {
+        for (var i in arr) {
+            arr[i].submission_date = moment(arr[i].submission_date).format('DD/MM/YYYY HH:mm:ss');
+        }
+    }
+
     const Logout = () => { //logs out and clears email and password
         //setUser({ email: "", password: "" });
-        setToken(""); //? How should the user logout? by clearing the token or changing pages?
+        setToken(""); //TODO add token to local storage
         setLoginError("");
     }
 
@@ -168,20 +156,13 @@ export default function App() {
     }
 
     const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
-
-        const newBarcode = await CreateBarcode(token, barcode, "2021-03-16 04:00:00");//TODO figure out how to get from time, maybe have to pass through something
-        //TODO implement moment.js
-        setDate(new Date()); //! This doesn't do anything and it still doesn't work properly, it will take the time that the user opens the scan page but not when they actually scan
-        //setRows(rows => [{ delivery_note_number: barcode, submission_date: date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }].concat(rows)); //* must use .concat instead of .push, because it creates a new array instead of appending
-
-
+        setDate(moment().format()); //! this only works on the opening of the scan page, not after the scan happens
+        await CreateBarcode(token, barcode, date);
     }
-    //console.table(rows);
 
     const handleCloseError = () => {  //closes error popup message
         setOpenError(false);
     };
-
 
     /**************************************************************************************************************************/
 
