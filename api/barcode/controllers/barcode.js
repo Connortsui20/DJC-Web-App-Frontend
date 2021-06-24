@@ -6,7 +6,7 @@ const { sanitizeEntity } = require('strapi-utils');
 
 //! https://koajs.com/#request look at this after everything else is done
 
-//TODO Add custom routes here and in routes.json for create, update, and delete barcodes
+//TODO look into dotenv
 
 module.exports = {
 
