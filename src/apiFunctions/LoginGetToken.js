@@ -21,7 +21,7 @@ export default async function LoginGetToken(details) {
 
     return { //return object to use in App
         token: jwtToken,
-        error: err
+        error: err,
     };
 
 }

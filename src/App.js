@@ -88,8 +88,17 @@ export default function App() {
 
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
 
-    //const [error, setError] = useState(""); //TODO will eventually use this for error code 4xx/5xx from api
+    const [error, setError] = useState(""); //TODO use this for every type of error (except login errors for now)
     const [openError, setOpenError] = useState(false); //opens an error popup based on error and setError
+
+    //! Every source of error: examples
+    /* 
+    Login page: email or password is wrong
+    Home page: unable to retrieve data table, or token doesn't work
+    Scan page: unable to create/post a new barcode to api
+    API doesn't respond at all
+    Forbidden access?
+    */
 
     const [openBarcode, setOpenBarcode] = useState(false); //open barcode scanning page
 
@@ -100,23 +109,17 @@ export default function App() {
 
     /**************************************************************************************************************************/
 
-    const handleOpenLogoutCheck = () => { //opens logout popup
-        setLogoutCheck(true);
-    }
-
-    const handleCloseLogoutCheck = () => { //closes logout popup
-        setLogoutCheck(false);
-    };
+    const handleOpenLogoutCheck = () => { setLogoutCheck(true); };//opens logout popup
+    const handleCloseLogoutCheck = () => { setLogoutCheck(false); }; //closes logout popup
 
     const Login = async (details) => {
         const jwtToken = await LoginGetToken(details);
         if (jwtToken.error === null) {
-            console.log("No login error!");
             setToken(jwtToken.token);
         } else { // (if jwtToken has something)
             setLoginError("Incorrect login details"); //TODO add exact error functionality
         }
-    }
+    };
 
     const GetRows = async (token) => { //* This function only happens in the home page, under the useEffect() hook
         const pageNumber = 1; //TODO figure out page number functionality, maybe pass through function
@@ -126,9 +129,10 @@ export default function App() {
             convertTime(data.rows);
             setRows(data.rows);
         } else {
-            console.error("something is wrong with the rows")
+            setError(data.error);
+            setOpenError(true);
         }
-    }
+    };
 
     function convertTime(arr) {
         for (var i in arr) {
@@ -140,30 +144,25 @@ export default function App() {
         //setUser({ email: "", password: "" });
         setToken(""); //TODO add token to local storage
         setLoginError("");
-    }
+    };
 
-    const handleOpenBarcode = () => { //opens barcode scanning page
-        setOpenBarcode(true);
-    }
-    const handleCloseBarcode = () => { //closes barcode scanning page
-        setOpenBarcode(false)
-    }
+    const handleOpenBarcode = () => { setOpenBarcode(true); }; //opens barcode scanning page
+    const handleCloseBarcode = () => { setOpenBarcode(false); }; //closes barcode scanning page
 
     const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
         setDate(moment().format()); //! The only point in having date and setDate is to update useEffect() in Home.js, there is definitely a better way to do this
         await CreateBarcode(token, barcode, moment().format());
-    }
-
-    const handleCloseError = () => {  //closes error popup message
-        setOpenError(false);
     };
+
+    const handleCloseError = () => { setOpenError(false); }; //closes error popup message
+    const handleResetError = () => { setError(""); };
 
     /**************************************************************************************************************************/
 
     const routes = { //all url routes
         "/home": () => <Home GetRows={GetRows} rows={rows} date={date} token={token}
             handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
-            openError={openError} handleCloseError={handleCloseError}
+            error={error} openError={openError} handleCloseError={handleCloseError} handleResetError={handleResetError}
             logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />,
         "/login": () => <LoginPage Login={Login} loginError={loginError} theme={theme} />,
         "/scan": () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode} />

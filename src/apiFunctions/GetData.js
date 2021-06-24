@@ -18,7 +18,7 @@ export default async function GetData(jwtToken, pageNumber, pageSize) {
         rows = data.map(e => ({ //only return barcode ID, note number, and submissions data.
             id: e.id,
             delivery_note_number: e.delivery_note_number,
-            submission_date: e.submission_date
+            submission_date: e.submission_date,
         }) //userID comes from the back end and is specific to the user who is logged in
         );
     } catch (error) {
@@ -27,7 +27,7 @@ export default async function GetData(jwtToken, pageNumber, pageSize) {
     }
     return { //return object to use in App
         rows: rows,
-        error: err
+        error: err,
     };
 
 }

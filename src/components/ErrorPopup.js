@@ -8,9 +8,14 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 
-export default function ErrorPopup({ openError, handleCloseError, theme }) {
+export default function ErrorPopup({ error, openError, handleCloseError, handleResetError, theme }) {
     //openError is a boolean, true brings up the popup, false closes it
     //handleCloseError closes the error popup
+
+    const closeErrorMessage = () => {
+        handleCloseError();
+        handleResetError();
+    }
 
     return (
         <div><Dialog
@@ -18,10 +23,10 @@ export default function ErrorPopup({ openError, handleCloseError, theme }) {
             onClose={handleCloseError}>
             <DialogTitle id="error">{"Error"}</DialogTitle>
             <DialogContent><DialogContentText id="error description">
-                There is an error probably
+                {error.message}
             </DialogContentText></DialogContent>
             <DialogActions>
-                <Button onClick={handleCloseError} color="primary" autoFocus>
+                <Button onClick={closeErrorMessage} color="primary" autoFocus>
                     Ok
                 </Button>
             </DialogActions>
