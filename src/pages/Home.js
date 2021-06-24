@@ -20,18 +20,9 @@ export default function Home({ GetRows, rows, date, token, Logout, handleOpenBar
     }));
     const tableTheme = useStyles();
 
-
-
-
-    /*
-    use useEffect() to call the api with GetData();
-    pass through barcode, pass through token 
-    */
     useEffect(() => {
         GetRows(token);
-    }, [token, date]);
-
-
+    }, [token, date]); //there might be a better way to do this but this still works fine
 
     return (
         <div>

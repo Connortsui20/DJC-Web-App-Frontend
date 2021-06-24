@@ -109,28 +109,22 @@ export default function App() {
     };
 
     const Login = async (details) => {
-
         const jwtToken = await LoginGetToken(details);
-
         if (jwtToken.error === null) {
             console.log("No login error!");
             setToken(jwtToken.token);
         } else { // (if jwtToken has something)
             setLoginError("Incorrect login details"); //TODO add exact error functionality
         }
-
     }
 
-    const GetRows = async (token) => {
+    const GetRows = async (token) => { //* This function only happens in the home page, under the useEffect() hook
         const pageNumber = 1; //TODO figure out page number functionality, maybe pass through function
-        const pageSize = 5;
+        const pageSize = 100;
         const data = await GetData(token, pageNumber, pageSize);
         if (data.error === null) {
-            //console.log("No data error");
             convertTime(data.rows);
             setRows(data.rows);
-            console.table(data.rows);
-
         } else {
             console.error("something is wrong with the rows")
         }
@@ -156,8 +150,8 @@ export default function App() {
     }
 
     const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
-        setDate(moment().format()); //! this only works on the opening of the scan page, not after the scan happens
-        await CreateBarcode(token, barcode, date);
+        setDate(moment().format()); //! The only point in having date and setDate is to update useEffect() in Home.js, there is definitely a better way to do this
+        await CreateBarcode(token, barcode, moment().format());
     }
 
     const handleCloseError = () => {  //closes error popup message
@@ -167,7 +161,8 @@ export default function App() {
     /**************************************************************************************************************************/
 
     const routes = { //all url routes
-        "/home": () => <Home GetRows={GetRows} rows={rows} date={date} token={token} handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
+        "/home": () => <Home GetRows={GetRows} rows={rows} date={date} token={token}
+            handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
             openError={openError} handleCloseError={handleCloseError}
             logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />,
         "/login": () => <LoginPage Login={Login} loginError={loginError} theme={theme} />,

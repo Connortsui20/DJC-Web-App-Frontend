@@ -13,7 +13,7 @@ export default function DataTable({ rows }) {
     ]; //* this is just styling the header, column cells are styled in index.css line 1 (.MuiDataGrid-renderingZone !important) to be 100% width
 
     return (
-        <div style={{ height: 500, width: "100%" }}>
+        <div style={{ height: 400, width: "100%" }}>
             <DataGrid disableExtendRowFullWidth={false} rows={rows} columns={columns} pageSize={5} />
         </div>
     );
