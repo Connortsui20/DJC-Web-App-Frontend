@@ -8,25 +8,30 @@ import DataTable from "../components/DataTable";
 import { makeStyles } from "@material-ui/core/styles";
 
 
-export default function Home({  Logout, handleOpenBarcode, handleOpenLogoutCheck, openError, handleCloseError,
+
+
+export default function Home({ GetRows, rows, date, token, Logout, handleOpenBarcode, handleOpenLogoutCheck, openError, handleCloseError,
     logoutCheck, handleCloseLogoutCheck, theme }) {
 
-        const useStyles = makeStyles((theme) => ({
-
-            form: { //padding to table
-                padding: "0 5%"
-            },
-    
-        }));
-    
-        const [rows, setRows] = useState([]);
-        /*
-        use useEffect() to call the api with GetData();
-        pass through barcode, pass through token 
-        */ 
+    const useStyles = makeStyles((theme) => ({
+        form: { //padding to table
+            padding: "0 5%"
+        },
+    }));
+    const tableTheme = useStyles();
 
 
-        const tableTheme = useStyles();
+
+
+    /*
+    use useEffect() to call the api with GetData();
+    pass through barcode, pass through token 
+    */
+    useEffect(() => {
+        GetRows(token);
+    }, [token, date]);
+
+
 
     return (
         <div>

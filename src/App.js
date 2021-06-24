@@ -92,24 +92,17 @@ export default function App() {
 
     const [openBarcode, setOpenBarcode] = useState(false); //open barcode scanning page
 
+    const [rows, setRows] = useState([]);
 
 
 
-    //const GetRows = (token, pageNumber, pageSize) => {
 
-    const pageNumber = 1;
-    const pageSize = 3;
 
-    //const [rows, setRows] = useState([]); //TODO eventually will pull from a api
-    const rows = [];
-
-    const data = GetData(token, pageNumber, pageSize);
-    console.log(data);
 
     // const [rows, setRows] = useState([ //TODO eventually will pull from a api
-    //     { id: "test1", SubmitTime: "00:10 PM" },
-    //     { id: "2test", SubmitTime: "00:02 AM" },
-    //     { id: "test3", SubmitTime: "03:01 PM" },
+    //     { delivery_note_number: "test1", submission_date: "00:10 PM" },
+    //     { delivery_note_number: "2test", submission_date: "00:02 AM" },
+    //     { delivery_note_number: "test3", submission_date: "03:01 PM" },
     // ]);
 
 
@@ -137,25 +130,29 @@ export default function App() {
 
     const Login = async (details) => { //? Do I need to add specific error functionality?
 
-        const jwtToken = await LoginGetToken(details)
+        const jwtToken = await LoginGetToken(details);
 
         if (jwtToken.error === null) {
             console.log("No login error!");
             setToken(jwtToken.token);
-            
-
         } else { // (if jwtToken has something)
             setLoginError("Incorrect login details"); //TODO this doesnt work probably bc error is an object
         }
     }
 
+    const GetRows = async (token) => {
+        const pageNumber = 1;
+        const pageSize = 5;
 
+        const data = await GetData(token, pageNumber, pageSize);
 
-
-
-
-
-
+        if (data.error === null) {
+            console.log("No data error");
+            setRows(data.rows);
+        } else {
+            console.error("something is wrong with the rows")
+        }
+    }
 
     const Logout = () => { //logs out and clears email and password
         //setUser({ email: "", password: "" });
@@ -170,12 +167,12 @@ export default function App() {
         setOpenBarcode(false)
     }
 
-    const handleAddBarcode = (barcode) => { //adds the barcode once the scanner finds anything
+    const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
 
-        const newBarcode = CreateBarcode(token, barcode, "2021-03-16 04:00:00");//TODO figure out how to get from time, maybe have to pass through something
+        const newBarcode = await CreateBarcode(token, barcode, "2021-03-16 04:00:00");//TODO figure out how to get from time, maybe have to pass through something
         //TODO implement moment.js
         setDate(new Date()); //! This doesn't do anything and it still doesn't work properly, it will take the time that the user opens the scan page but not when they actually scan
-        //setRows(rows => [{ id: barcode, SubmitTime: date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }].concat(rows)); //* must use .concat instead of .push, because it creates a new array instead of appending
+        //setRows(rows => [{ delivery_note_number: barcode, submission_date: date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }].concat(rows)); //* must use .concat instead of .push, because it creates a new array instead of appending
 
 
     }
@@ -189,7 +186,7 @@ export default function App() {
     /**************************************************************************************************************************/
 
     const routes = { //all url routes
-        "/home": () => <Home rows={rows} handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
+        "/home": () => <Home GetRows={GetRows} rows={rows} date={date} token={token} handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
             openError={openError} handleCloseError={handleCloseError}
             logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />,
         "/login": () => <LoginPage Login={Login} loginError={loginError} theme={theme} />,

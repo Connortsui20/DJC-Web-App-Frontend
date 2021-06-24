@@ -3,6 +3,9 @@ import axios from 'axios';
 
 export default async function GetData(jwtToken, pageNumber, pageSize) {
 
+    let rows = [];
+    let err = null;
+
     try {
 
         const [start, limit] = startEnd(pageNumber, pageSize)
@@ -16,19 +19,25 @@ export default async function GetData(jwtToken, pageNumber, pageSize) {
         });
         //console.log("%c Data table", "color: green", data);
 
-        return data.map(e => 
-            ({
-                id: e.number, 
-                SubmitTime: e.time
-            })
+        rows = data.map(e =>
+        ({
+            id: e.id,
+            delivery_note_number: e.delivery_note_number,
+            submission_date: e.submission_date
+        })
         );
 
 
+
     } catch (error) {
-        //console.error("User not logged in yet");
+        err = error;
+        rows = []; //? again probably dont need this but who knows
     }
 
-
+    return {
+        rows: rows,
+        error: err
+    };
 
 }
 
