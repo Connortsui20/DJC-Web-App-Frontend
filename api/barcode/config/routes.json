@@ -1,6 +1,7 @@
 {
   "routes": [
     
+
     
     {
       "method": "GET",
@@ -19,7 +20,17 @@
         "policies": []
       }
     },
+
+    {
+      "method": "GET",
+      "path": "/barcodes/countuserbarcodes",
+      "handler": "barcode.countuserbarcodes",
+      "config": {
+        "policies": []
+      }
+    },
     
+
     
     {
       "method": "GET",
