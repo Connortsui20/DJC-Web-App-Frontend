@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 
 
-export default function Home({ GetRows, rows, date, token, Logout, handleOpenBarcode, handleOpenLogoutCheck, error, openError, handleCloseError, handleCloseLoginError,
+export default function Home({ GetRows, rows, date, token, pageNumber, pageSize, count, handlePageChange, Logout, handleOpenBarcode, handleOpenLogoutCheck, error, openError, handleCloseError, handleCloseLoginError,
     logoutCheck, handleCloseLogoutCheck, theme }) {
 
     const useStyles = makeStyles((theme) => ({
@@ -22,7 +22,7 @@ export default function Home({ GetRows, rows, date, token, Logout, handleOpenBar
 
     useEffect(() => {
         GetRows(token);
-    }, [date]); //there might be a better way to do this but this still works fine
+    }, [date, pageNumber]); //there might be a better way to do this but this still works fine
 
     return (
         <div>
@@ -32,7 +32,7 @@ export default function Home({ GetRows, rows, date, token, Logout, handleOpenBar
             <div className={tableTheme.form}>
                 <ErrorPopup error={error} openError={openError} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError} theme={theme} />
                 <LogoutPopup logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />
-                <DataTable rows={rows} />
+                <DataTable rows={rows} pageNumber={pageNumber} pageSize={pageSize} count={count} handlePageChange={handlePageChange}  />
             </div>
         </div>
     );

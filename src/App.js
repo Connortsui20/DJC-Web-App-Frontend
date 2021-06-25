@@ -79,21 +79,13 @@ const useStyles = makeStyles((theme) => ({
 
 /**************************************************************************************************************************/
 
-
-//TODO make the error popups more robust, add the function to the other places, decide what to do on login page error
-//TODO figure out how the data table page numbers work, order data grid by newest first
-
-//TODO not working on mobile for some reason have to fix that
-//TODO prevent login page from rendering when on home page
-
-//? There is a REACT error when logging out, findDOMNode is deprecated: https://reactjs.org/docs/strict-mode.html#warning-about-deprecated-finddomnode-usage, only happens in strict mode
-
+//TODO order data grid by newest first
 
 export default function App() {
 
     const theme = useStyles();
 
-    const [token, setToken] = useState("");
+    const [token, setToken] = useState(localStorage.getItem('jwtToken'));
     const [loginError, setLoginError] = useState(""); //error message if email and password are incorrect
 
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
@@ -106,6 +98,9 @@ export default function App() {
 
     const [date, setDate] = useState(moment().format()); //gets the date and time 
     const [rows, setRows] = useState([]);
+    const [count, setCount] = useState(100); //max is 100 so just set to 100 for default
+    const [pageNumber, setPageNumber] = useState(0);
+    const pageSize = 10; //the # of scans the api requests is equal to the amount shown on the grid
 
     /**************************************************************************************************************************/
 
@@ -122,18 +117,23 @@ export default function App() {
     };
 
     const GetRows = async (token) => { //* This function only happens in the home page, under the useEffect() hook
-        const pageNumber = 1; //TODO figure out page number functionality, maybe pass through function
-        const pageSize = 100;
-        const data = await GetData(token, setToken, openLoginErrorPopup, pageNumber, pageSize); //? Should probably not handle the expired token here but somewhere else
+        
+        const dataPageNumber = pageNumber; //*these are for api data only, does not affect the frontend grid
+        const data = await GetData(token, openLoginErrorPopup, dataPageNumber, pageSize); //? Should probably not handle the expired token here but somewhere else
         if (data.error === null) {
             //console.table(data.rows); //TODO figure out how to order by time in data.rows, not the converted time
             const convertedTime = convertTime(data.rows);
             setRows(convertedTime);
+            setCount(data.count);
         } else {
             setError(data.error);
             setOpenError(true);
         }
     };
+
+    const handlePageChange = (params) => {
+        setPageNumber(params.page); //* page numbers index from 0
+    }
 
     const convertTime = (arr) => {
         for (var i in arr) {
@@ -177,29 +177,16 @@ export default function App() {
         setOpenError(false);
         localStorage.removeItem("jwtToken"); //? There is 100% a better way to do this, will clean this up after everything is done
         setToken(""); 
-    }
-
-    const retrieveToken = () => {
-        const retrievedToken = localStorage.getItem('jwtToken');
-        if (retrievedToken) {
-            setToken(retrievedToken);
-            console.log("%c Retrieved Authentication token from local storage", "color: yellow");
-            //! need to check again with the server if the token is valid, if it is not valid delete the token
-        } else {
-            setToken(""); //? Not sure if I even need this statement
-        }
     };
-
-    
 
     /**************************************************************************************************************************/
 
     const routes = { //all url routes
-        "/home": () => <Home GetRows={GetRows} rows={rows} date={date} token={token}
+        "/home": () => <Home GetRows={GetRows} rows={rows} date={date} token={token} pageNumber={pageNumber} pageSize = {pageSize} count={count} handlePageChange={handlePageChange}
             handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
             error={error} openError={openError} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError}
             logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />,
-        "/login": () => <LoginPage retrieveToken={retrieveToken} Login={Login} loginError={loginError} theme={theme} />,
+        "/login": () => <LoginPage  Login={Login} loginError={loginError} theme={theme} />,
         "/scan": () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode} />
     };
 
@@ -212,6 +199,6 @@ export default function App() {
                 ) : (navigate("/login"))}
             {routeResult || <NoPageFound />}
         </div>
-    ); //! loginpage is rendering when automatically logging in from jwt Token, fix
+    ); 
 
 }
