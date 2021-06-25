@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import NoPageFound from "./components/NoPageFound";
 
@@ -78,10 +78,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**************************************************************************************************************************/
-//TODO add local storage functionality, store the jwt token
+
+
 //TODO make the error popups more robust, add the function to the other places, decide what to do on login page error
-//TODO figure out how the data table page numbers work
-//TODO order data grid by newest first, might have to do that on backend
+//TODO figure out how the data table page numbers work, order data grid by newest first
+
+//TODO not working on mobile for some reason have to fix that
+//TODO prevent login page from rendering when on home page
+
+//? There is a REACT error when logging out, findDOMNode is deprecated: https://reactjs.org/docs/strict-mode.html#warning-about-deprecated-finddomnode-usage, only happens in strict mode
+
 
 export default function App() {
 
@@ -110,18 +116,17 @@ export default function App() {
         const jwtToken = await LoginGetToken(details);
         if (jwtToken.error === null) {
             setToken(jwtToken.token);
-            //! do something in local storage
         } else { // (if jwtToken has something)
-            setLoginError("Incorrect login details"); //TODO add exact error functionality
+            setLoginError("Incorrect login details"); //? add exact error functionality ??
         }
     };
 
     const GetRows = async (token) => { //* This function only happens in the home page, under the useEffect() hook
         const pageNumber = 1; //TODO figure out page number functionality, maybe pass through function
         const pageSize = 100;
-        const data = await GetData(token, pageNumber, pageSize);
+        const data = await GetData(token, setToken, openLoginErrorPopup, pageNumber, pageSize); //? Should probably not handle the expired token here but somewhere else
         if (data.error === null) {
-            console.table(data.rows); //TODO figure out how to order by time in data.rows, not the converted time
+            //console.table(data.rows); //TODO figure out how to order by time in data.rows, not the converted time
             const convertedTime = convertTime(data.rows);
             setRows(convertedTime);
         } else {
@@ -149,40 +154,57 @@ export default function App() {
 
     const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
         setDate(moment().format()); //! The only point in having date and setDate is to update useEffect() in Home.js, there is definitely a better way to do this
-        await CreateBarcode(token, barcode, moment().format()) 
-        .catch(error => {
-            setError(error);
-            setOpenError(true);
-        });
+        await CreateBarcode(token, barcode, moment().format())
+            .catch(error => {
+                setError(error);
+                setOpenError(true);
+            });
 
     }; //* it does not matter how the time is formatted here because api will conver it anyways, must convert time when reading from api
 
-    const handleCloseError = () => { setOpenError(false); }; //closes error popup message
-    const handleResetError = () => { setError(""); };
+    const handleCloseError = () => { 
+        setError("");
+        setOpenError(false); 
+    }; //closes error popup message
+
+    const openLoginErrorPopup = (error) => {
+        setError(error);
+        setOpenError(true);
+    }; //? specifically made for if the token expires, probably a better way to do this
+
+    const handleCloseLoginError = () => {
+        setError("");
+        setOpenError(false);
+        localStorage.removeItem("jwtToken"); //? There is 100% a better way to do this, will clean this up after everything is done
+        setToken(""); 
+    }
 
     const retrieveToken = () => {
         const retrievedToken = localStorage.getItem('jwtToken');
         if (retrievedToken) {
             setToken(retrievedToken);
-            console.log("%c Retrieved Authentication token from local storage", "color: yellow")
+            console.log("%c Retrieved Authentication token from local storage", "color: yellow");
+            //! need to check again with the server if the token is valid, if it is not valid delete the token
         } else {
             setToken(""); //? Not sure if I even need this statement
         }
     };
+
+    
 
     /**************************************************************************************************************************/
 
     const routes = { //all url routes
         "/home": () => <Home GetRows={GetRows} rows={rows} date={date} token={token}
             handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
-            error={error} openError={openError} handleCloseError={handleCloseError} handleResetError={handleResetError}
+            error={error} openError={openError} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError}
             logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />,
         "/login": () => <LoginPage retrieveToken={retrieveToken} Login={Login} loginError={loginError} theme={theme} />,
         "/scan": () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode} />
     };
 
     const routeResult = useRoutes(routes); //hook for hookrouter
-   
+
     return ( //application starts here
         <div className="App">
             {(token !== "" && token !== null && token !== undefined) ?
@@ -190,6 +212,6 @@ export default function App() {
                 ) : (navigate("/login"))}
             {routeResult || <NoPageFound />}
         </div>
-    );
+    ); //! loginpage is rendering when automatically logging in from jwt Token, fix
 
 }

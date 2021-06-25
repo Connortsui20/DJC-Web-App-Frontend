@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 
 
-export default function Home({ GetRows, rows, date, token, Logout, handleOpenBarcode, handleOpenLogoutCheck, error, openError, handleCloseError, handleResetError,
+export default function Home({ GetRows, rows, date, token, Logout, handleOpenBarcode, handleOpenLogoutCheck, error, openError, handleCloseError, handleCloseLoginError,
     logoutCheck, handleCloseLogoutCheck, theme }) {
 
     const useStyles = makeStyles((theme) => ({
@@ -30,7 +30,7 @@ export default function Home({ GetRows, rows, date, token, Logout, handleOpenBar
                 <HeaderIn handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck} />
             </div>
             <div className={tableTheme.form}>
-                <ErrorPopup error={error} openError={openError} handleCloseError={handleCloseError} handleResetError={handleResetError} theme={theme} />
+                <ErrorPopup error={error} openError={openError} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError} theme={theme} />
                 <LogoutPopup logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />
                 <DataTable rows={rows} />
             </div>

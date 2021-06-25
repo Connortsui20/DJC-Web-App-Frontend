@@ -13,13 +13,13 @@ export default function DataTable({ rows }) {
     ]; //* this is just styling the header, column cells are styled in index.css line 1 (.MuiDataGrid-renderingZone !important) to be 100% width
 
     return (
-        <div style={{ height: 400, width: "100%" }}>
+        <div style={{ height: 800, width: "100%" }}>
             <DataGrid sortModel={[
                 {
                     field: 'submission_date',
                     sort: 'desc',
                 },
-            ]} disableExtendRowFullWidth={false} rows={rows} columns={columns} pageSize={5} />
+            ]} disableExtendRowFullWidth={false} rows={rows} columns={columns} pageSize={10} />
         </div>
     );
 

@@ -8,25 +8,30 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 
-export default function ErrorPopup({ error, openError, handleCloseError, handleResetError, theme }) {
+export default function ErrorPopup({ error,  openError, handleCloseError, handleCloseLoginError, theme }) {
     //openError is a boolean, true brings up the popup, false closes it
-    //handleCloseError closes the error popup
+    //handleCloseError closes the error popup and resets the error
 
-    const closeErrorMessage = () => {
-        handleCloseError();
-        handleResetError();
+    const decideClose = () => { //? again there is probably a better way to do this but I'll do it when I finish everything else
+        if (error.response.status === 401){
+            //console.log(error.response.status);
+            handleCloseLoginError();
+        } else {
+            handleCloseError();
+        }
+        
     }
 
     return (
         <div><Dialog
             open={openError}
-            onClose={handleCloseError}>
+            onClose={decideClose}>
             <DialogTitle id="error">{"Error"}</DialogTitle>
             <DialogContent><DialogContentText id="error description">
                 {error.message}
             </DialogContentText></DialogContent>
             <DialogActions>
-                <Button onClick={closeErrorMessage} color="primary" autoFocus>
+                <Button onClick={decideClose} color="primary" autoFocus>
                     Ok
                 </Button>
             </DialogActions>

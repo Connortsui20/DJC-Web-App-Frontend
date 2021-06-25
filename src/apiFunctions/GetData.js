@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export default async function GetData(jwtToken, pageNumber, pageSize) {
+export default async function GetData(jwtToken, setToken, openLoginErrorPopup, pageNumber, pageSize) {
     //requests barcode data from the api with the jwt Token, if token is valid  
 
     let rows = [];
@@ -21,9 +21,17 @@ export default async function GetData(jwtToken, pageNumber, pageSize) {
             submission_date: e.submission_date,
         }) //userID comes from the back end and is specific to the user who is logged in
         );
-    } catch (error) {
-        err = error;
-        rows = []; //? again probably dont need this but who knows
+    } catch (error) { //If the error is wrong 
+        //! if error is specifically 401, meaning if the token is invalid, delete the jwt from local storage and setToken("")
+        if (error.response.status === 401) {
+            console.error("token has expired");
+            openLoginErrorPopup(error); //pass through the error
+        } else {
+            console.error(error);
+            err = error;
+            rows = []; //? again probably dont need this but who knows
+        }
+
     }
     return { //return object to use in App
         rows: rows,

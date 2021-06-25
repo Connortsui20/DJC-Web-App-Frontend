@@ -15,11 +15,10 @@ export default function LoginForm({ Login, loginError, theme }) {
     const submitHandler = e => {
         e.preventDefault(); //prevent page from re-rendering
         Login(details);
-        
     }
 
     return (
-        
+
         <form onSubmit={submitHandler} noValidate autoComplete="off" >
             <div>
                 <div>
@@ -48,7 +47,7 @@ export default function LoginForm({ Login, loginError, theme }) {
 
             </div>
         </form>
-        
+
     );
 
 }
