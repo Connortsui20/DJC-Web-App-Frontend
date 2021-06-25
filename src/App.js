@@ -139,7 +139,8 @@ export default function App() {
 
     const Logout = () => { //logs out and clears email and password
         //setUser({ email: "", password: "" });
-        setToken(""); //TODO add token to local storage
+        localStorage.removeItem("jwtToken"); //? Should it only remove the token or should it clear everything with .clear() instead?
+        setToken("");
         setLoginError("");
     };
 
