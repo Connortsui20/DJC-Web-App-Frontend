@@ -77,9 +77,9 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+
 /**************************************************************************************************************************/
 
-//TODO order data grid by newest first
 
 export default function App() {
 
@@ -91,7 +91,7 @@ export default function App() {
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
 
     //! Should I make it so that every time setError is called the popup comes up automatically? right now the error is set and then the popup is opened
-    const [error, setError] = useState(""); //TODO use this for every type of error (except login errors for now)
+    const [error, setError] = useState(""); //TODO use this for every type of error
     const [openError, setOpenError] = useState(false); //opens an error popup based on error and setError
 
     const [openBarcode, setOpenBarcode] = useState(false); //open barcode scanning page
@@ -112,7 +112,7 @@ export default function App() {
         if (jwtToken.error === null) {
             setToken(jwtToken.token);
         } else { // (if jwtToken has something)
-            setLoginError("Incorrect login details"); //? add exact error functionality ??
+            setLoginError("Incorrect login details"); 
         }
     };
 
@@ -121,7 +121,6 @@ export default function App() {
         const dataPageNumber = pageNumber; //*these are for api data only, does not affect the frontend grid
         const data = await GetData(token, openLoginErrorPopup, dataPageNumber, pageSize); //? Should probably not handle the expired token here but somewhere else
         if (data.error === null) {
-            //console.table(data.rows); //TODO figure out how to order by time in data.rows, not the converted time
             const convertedTime = convertTime(data.rows);
             setRows(convertedTime);
             setCount(data.count);
@@ -143,7 +142,6 @@ export default function App() {
     }
 
     const Logout = () => { //logs out and clears email and password
-        //setUser({ email: "", password: "" });
         localStorage.removeItem("jwtToken"); //? Should it only remove the token or should it clear everything with .clear() instead?
         setToken("");
         setLoginError("");
@@ -170,12 +168,12 @@ export default function App() {
     const openLoginErrorPopup = (error) => {
         setError(error);
         setOpenError(true);
-    }; //? specifically made for if the token expires, probably a better way to do this
+    }; //* specifically made for if the token expires
 
     const handleCloseLoginError = () => {
         setError("");
         setOpenError(false);
-        localStorage.removeItem("jwtToken"); //? There is 100% a better way to do this, will clean this up after everything is done
+        localStorage.removeItem("jwtToken");
         setToken(""); 
     };
 
