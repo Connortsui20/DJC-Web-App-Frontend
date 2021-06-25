@@ -22,7 +22,7 @@ export default function Home({ GetRows, rows, date, token, Logout, handleOpenBar
 
     useEffect(() => {
         GetRows(token);
-    }, [token, date]); //there might be a better way to do this but this still works fine
+    }, [date]); //there might be a better way to do this but this still works fine
 
     return (
         <div>

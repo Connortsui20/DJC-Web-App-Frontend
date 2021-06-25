@@ -14,7 +14,12 @@ export default function DataTable({ rows }) {
 
     return (
         <div style={{ height: 400, width: "100%" }}>
-            <DataGrid disableExtendRowFullWidth={false} rows={rows} columns={columns} pageSize={5} />
+            <DataGrid sortModel={[
+                {
+                    field: 'submission_date',
+                    sort: 'desc',
+                },
+            ]} disableExtendRowFullWidth={false} rows={rows} columns={columns} pageSize={5} />
         </div>
     );
 

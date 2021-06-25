@@ -13,6 +13,7 @@ export default async function LoginGetToken(details) {
             password: details.password,
         });
         jwtToken = data.jwt;  //if successful store jwt token for return
+        localStorage.setItem("jwtToken", jwtToken);
     } catch (error) {
         console.error("%c Login details are wrong", "color: yellow", error);
         err = error; //TODO extract error from this into App.js

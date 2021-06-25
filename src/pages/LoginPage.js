@@ -4,7 +4,9 @@ import HeaderOut from "../components/HeaderLoggedOut";
 import { makeStyles } from "@material-ui/core/styles";
 
 
-export default function LoginPage({ Login, loginError, theme }) {
+export default function LoginPage({ retrieveToken, Login, loginError, theme }) {
+    
+    retrieveToken(); //If the token is retrieved successfully, the app will automatically login and skip the page
     
     const useStyles = makeStyles((theme) => ({
 

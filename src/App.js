@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
 //TODO add local storage functionality, store the jwt token
 //TODO make the error popups more robust, add the function to the other places, decide what to do on login page error
 //TODO figure out how the data table page numbers work
+//TODO order data grid by newest first, might have to do that on backend
 
 export default function App() {
 
@@ -109,6 +110,7 @@ export default function App() {
         const jwtToken = await LoginGetToken(details);
         if (jwtToken.error === null) {
             setToken(jwtToken.token);
+            //! do something in local storage
         } else { // (if jwtToken has something)
             setLoginError("Incorrect login details"); //TODO add exact error functionality
         }
@@ -119,18 +121,20 @@ export default function App() {
         const pageSize = 100;
         const data = await GetData(token, pageNumber, pageSize);
         if (data.error === null) {
-            convertTime(data.rows);
-            setRows(data.rows);
+            console.table(data.rows); //TODO figure out how to order by time in data.rows, not the converted time
+            const convertedTime = convertTime(data.rows);
+            setRows(convertedTime);
         } else {
             setError(data.error);
             setOpenError(true);
         }
     };
 
-    function convertTime(arr) {
+    const convertTime = (arr) => {
         for (var i in arr) {
-            arr[i].submission_date = moment(arr[i].submission_date).format('HH:mm:ss, DD/MM/YYYY');
+            arr[i].submission_date = moment(arr[i].submission_date).format('HH:mm:ss, DD/MM/YYYY'); //change all submission_date formats
         }
+        return arr;
     }
 
     const Logout = () => { //logs out and clears email and password
@@ -155,6 +159,16 @@ export default function App() {
     const handleCloseError = () => { setOpenError(false); }; //closes error popup message
     const handleResetError = () => { setError(""); };
 
+    const retrieveToken = () => {
+        const retrievedToken = localStorage.getItem('jwtToken');
+        if (retrievedToken) {
+            setToken(retrievedToken);
+            console.log("%c Retrieved Authentication token from local storage", "color: yellow")
+        } else {
+            setToken(""); //? Not sure if I even need this statement
+        }
+    };
+
     /**************************************************************************************************************************/
 
     const routes = { //all url routes
@@ -162,13 +176,12 @@ export default function App() {
             handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck}
             error={error} openError={openError} handleCloseError={handleCloseError} handleResetError={handleResetError}
             logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />,
-        "/login": () => <LoginPage Login={Login} loginError={loginError} theme={theme} />,
+        "/login": () => <LoginPage retrieveToken={retrieveToken} Login={Login} loginError={loginError} theme={theme} />,
         "/scan": () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode} />
     };
 
     const routeResult = useRoutes(routes); //hook for hookrouter
-
-
+   
     return ( //application starts here
         <div className="App">
             {(token !== "" && token !== null && token !== undefined) ?
