@@ -7,8 +7,10 @@ export default async function LoginGetToken(details) {
     let jwtToken = "";
     let err = null;
 
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
     try {
-        const { data } = await axios.post('http://localhost:1337/auth/local', { //send login info to the api
+        const { data } = await axios.post(`${BACKEND_URL}/auth/local`, { //send login info to the api
             identifier: details.email,
             password: details.password,
         });

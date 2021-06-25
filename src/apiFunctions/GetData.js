@@ -4,13 +4,17 @@ import axios from 'axios';
 export default async function GetData(jwtToken, openLoginErrorPopup, dataPageNumber, dataPageSize) {
     //requests barcode data from the api with the jwt Token, if token is valid  
 
+    
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    
+
     let rows = [];
     let count = 0;
     let err = null;
     const [start, limit] = startEnd(dataPageNumber, dataPageSize); //TODO figure out how to use this with DataTable.js material-ui DataGrid
     
     try { //request to access user barcodes with jwt Token
-        const { data } = await axios.get(`http://localhost:1337/barcodes/userbarcodes?start=${start}&limit=${limit}`, {  //! might change url from the backend, make sure to change it here as well
+        const { data } = await axios.get(`${BACKEND_URL}/barcodes/userbarcodes?start=${start}&limit=${limit}`, {  //! might change url from the backend, make sure to change it here as well
             headers: {
                 Authorization:
                     `Bearer ${jwtToken}`
@@ -22,7 +26,7 @@ export default async function GetData(jwtToken, openLoginErrorPopup, dataPageNum
             submission_date: e.submission_date,
         }) //userID comes from the back end and is specific to the user who is logged in
         );
-        const countdata = await axios.get(`http://localhost:1337/barcodes/countuserbarcodes`, {
+        const countdata = await axios.get(`${BACKEND_URL}/barcodes/countuserbarcodes`, {
             headers: {
                 Authorization:
                     `Bearer ${jwtToken}`
