@@ -4,15 +4,15 @@ import axios from 'axios';
 export default async function GetData(jwtToken, openLoginErrorPopup, dataPageNumber, dataPageSize) {
     //requests barcode data from the api with the jwt Token, if token is valid  
 
-    
+
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-    
+
 
     let rows = [];
     let count = 0;
     let err = null;
     const [start, limit] = startEnd(dataPageNumber, dataPageSize); //TODO figure out how to use this with DataTable.js material-ui DataGrid
-    
+
     try { //request to access user barcodes with jwt Token
         const { data } = await axios.get(`${BACKEND_URL}/barcodes/userbarcodes?start=${start}&limit=${limit}`, {  //! might change url from the backend, make sure to change it here as well
             headers: {
@@ -33,14 +33,17 @@ export default async function GetData(jwtToken, openLoginErrorPopup, dataPageNum
             },
         });
         count = countdata.data;
-    } catch (error) { //If the error is wrong 
+        console.log("%c Data retrieval successful: Showing table", "color: green; font-weight: bold");
+
+        //TODO ??? SORT THIS OUT??
+    } catch (error) { //If the error is wrong
         //! if error is specifically 401, meaning if the token is invalid, delete the jwt from local storage and setToken("")
         if (error.response.status === 401) {
-            console.error("token has expired");
+            console.error("%c Authentication Token is incorrect or has expried: ", "color: yellow; font-weight: bold", error);
             openLoginErrorPopup(error); //pass through the error
         } else {
-            console.error(error);
-            err = error;
+            console.error("%c Data retrieval failed: ", "color: yellow; font-weight: bold", error);
+            err = error; //! implement error popup here??
             rows = []; //? again probably dont need this but who knows
         }
 

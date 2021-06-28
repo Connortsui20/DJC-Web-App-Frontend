@@ -14,12 +14,13 @@ export default async function LoginGetToken(details) {
             identifier: details.email,
             password: details.password,
         });
-        jwtToken = data.jwt;  //if successful store jwt token for return
+        console.log("%c Login details are correct: Logging in", "color: green; font-weight: bold");
+        jwtToken = data.jwt;  //if successful store jwt token for return and local storage
         localStorage.setItem("jwtToken", jwtToken);
     } catch (error) {
-        console.error("%c Login details are wrong", "color: yellow", error);
-        err = error; //TODO extract error from this into App.js
-        jwtToken = ""; //? probably dont need this, definetly doesnt hurt to be here though
+        console.error("%c Login details are wrong: ", "color: yellow; font-weight: bold", error);
+        err = error;
+        localStorage.clear(); //As a safety precaution if user somehow has something in local storage
     }
 
     return { //return object to use in App

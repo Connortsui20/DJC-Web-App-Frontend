@@ -10,19 +10,15 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 export default function HeaderScanPage({ handleCloseBarcode }) {
 
     const useStyles = makeStyles((theme) => ({
-
         header: { //header color
             backgroundColor: "#039BE6",
-            
         },
-
         button: { //button colors
             color: "white",
             "&:hover": { //on hover
                 backgroundColor: "#0288D1",
             },
         },
-
     }));
 
     const headerTheme = useStyles();
@@ -34,7 +30,6 @@ export default function HeaderScanPage({ handleCloseBarcode }) {
                     <Button className={headerTheme.button} onClick={handleCloseBarcode}>
                         <ArrowBackIcon />
                     </Button>
-
                 </Toolbar>
             }</AppBar>
         </header>

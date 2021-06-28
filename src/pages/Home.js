@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import HeaderIn from "../components/HeaderLoggedIn";
 import ErrorPopup from "../components/ErrorPopup";
@@ -8,21 +8,24 @@ import DataTable from "../components/DataTable";
 import { makeStyles } from "@material-ui/core/styles";
 
 
-
-
-export default function Home({ GetRows, rows, date, token, pageNumber, pageSize, count, handlePageChange, Logout, handleOpenBarcode, handleOpenLogoutCheck, error, openError, handleCloseError, handleCloseLoginError,
-    logoutCheck, handleCloseLogoutCheck, theme }) {
+export default function Home({
+    GetRows, rows, date, token, pageNumber, pageSize, count, handlePageChange,
+    error, openError, handleCloseError, handleCloseLoginError,
+    handleOpenBarcode, Logout, logoutCheck,
+    handleOpenLogoutCheck, handleCloseLogoutCheck, theme }) {
 
     const useStyles = makeStyles((theme) => ({
         form: { //padding to table
-            padding: "0 5%"
+            padding: "0 5%",
         },
     }));
+
     const tableTheme = useStyles();
 
-    useEffect(() => {
+    useEffect(() => { //? It might be better for performance if useCallback() is used instead of useEffect()
         GetRows(token);
-    }, [date, pageNumber]); //there might be a better way to do this but this still works fine
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token, date, pageNumber]); //* do not get rid of the comment above
 
     return (
         <div>
@@ -32,7 +35,7 @@ export default function Home({ GetRows, rows, date, token, pageNumber, pageSize,
             <div className={tableTheme.form}>
                 <ErrorPopup error={error} openError={openError} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError} theme={theme} />
                 <LogoutPopup logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />
-                <DataTable rows={rows} pageNumber={pageNumber} pageSize={pageSize} count={count} handlePageChange={handlePageChange}  />
+                <DataTable rows={rows} pageNumber={pageNumber} pageSize={pageSize} count={count} handlePageChange={handlePageChange} />
             </div>
         </div>
     );

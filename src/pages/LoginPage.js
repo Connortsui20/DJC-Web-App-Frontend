@@ -5,14 +5,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 
 export default function LoginPage({ Login, loginError, theme }) {
-    
-    
+
     const useStyles = makeStyles((theme) => ({
-
         form: { //padding to form
-            padding: "0 5%"
+            padding: "0 5%",
         },
-
     }));
 
     const formTheme = useStyles();
@@ -21,7 +18,7 @@ export default function LoginPage({ Login, loginError, theme }) {
         <div>
             <HeaderOut />
             <div className={formTheme.form}>
-            <LoginForm Login={Login} loginError={loginError} theme={theme} />
+                <LoginForm Login={Login} loginError={loginError} theme={theme} />
             </div>
         </div>
     );

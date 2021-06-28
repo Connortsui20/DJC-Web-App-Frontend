@@ -9,11 +9,11 @@ import Container from "@material-ui/core/Container";
 
 import "@fontsource/roboto";
 
-require('dotenv').config();
+//require('dotenv').config(); //? do I need this at all?
 //import dotenv from 'dotenv';
 
 
-
+//! remove React.StrictMode for production
 ReactDOM.render(
     
     
@@ -29,9 +29,9 @@ ReactDOM.render(
             </Container>
 
         </React.StrictMode>
-    ,
     
-    document.getElementById("root")
+    
+    , document.getElementById("root")
 
 );
 

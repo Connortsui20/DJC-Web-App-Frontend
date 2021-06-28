@@ -8,16 +8,14 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     camera: {
-
-        margin: theme.spacing(10, 0),
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#000"
+        backgroundColor: "#000",
     },
-
 }));
 
+//! The current barcode scanner could possibly take up a lot of memory, not sure why
 
 export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode }) {
     //handleCloseBarcode closes the barcode scan page and return to home
@@ -31,17 +29,17 @@ export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode }
     }
 
     return (
-        <div style={{"backgroundColor": "#000"}}>
+        <div style={{ "backgroundColor": "#000" }}>
             <div>
                 <HeaderScan handleCloseBarcode={handleCloseBarcode} />
             </div>
             <div className={scanTheme.camera}>
                 <BarcodeScannerComponent
                     width={"100%"}
-                    onUpdate={(err, savedCode) => {
-                        // if (err) {
-                        //     console.log("No Barcode Found DEBUG"); //for debugging
-                        // }
+                    onUpdate={(error, savedCode) => {
+                        if (error) {
+                            console.error("%c Something went wrong with the scanner: ", "color: yellow; font-weight: bold", error);
+                        }
                         if (savedCode) {
                             saveBarcode(savedCode.text);
                         }

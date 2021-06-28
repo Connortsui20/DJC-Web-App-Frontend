@@ -5,21 +5,20 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 
-
 export default function LoginForm({ Login, loginError, theme }) {
     //Login sets email and password, thus opening the home page
     //loginError will show up if email and password are incorrect
 
     const [details, setDetails] = useState({ email: "", password: "" });
 
-    const submitHandler = e => {
+    const submitLogin = (e) => {
         e.preventDefault(); //prevent page from re-rendering
         Login(details);
     }
 
     return (
 
-        <form onSubmit={submitHandler} noValidate autoComplete="off" >
+        <form onSubmit={submitLogin} noValidate autoComplete="off" >
             <div>
                 <div>
                     <Typography variant="h2" className={theme.title}>Login</Typography>
