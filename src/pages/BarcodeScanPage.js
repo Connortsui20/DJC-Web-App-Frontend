@@ -36,10 +36,7 @@ export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode }
             <div className={scanTheme.camera}>
                 <BarcodeScannerComponent
                     width={"100%"}
-                    onUpdate={(error, savedCode) => {
-                        if (error) {
-                            console.error("%c Something went wrong with the scanner: ", "color: yellow; font-weight: bold", error);
-                        }
+                    onUpdate={(error, savedCode) => { //error is whenever the scanner doesn't detect anything
                         if (savedCode) {
                             saveBarcode(savedCode.text);
                         }

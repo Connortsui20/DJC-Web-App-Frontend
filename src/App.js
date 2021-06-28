@@ -188,7 +188,8 @@ export default function App() {
             handleOpenBarcode={handleOpenBarcode} Logout={Logout} logoutCheck={logoutCheck}
             handleOpenLogoutCheck={handleOpenLogoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} theme={theme} />,
         "/login": () => <LoginPage Login={Login} loginError={loginError} theme={theme} />,
-        "/scan": () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode} />
+        "/scan": () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode} />,
+        "/something": () => <NoPageFound />,
     };
 
     const routeResult = useRoutes(routes); //hook for hookrouter, routes are states that get changed by routeResult

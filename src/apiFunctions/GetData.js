@@ -33,7 +33,7 @@ export default async function GetData(jwtToken, openLoginErrorPopup, dataPageNum
             },
         });
         count = countdata.data;
-        console.log("%c Data retrieval successful: Showing table", "color: green; font-weight: bold");
+        console.log("%c Data retrieval successful: Showing page number", "color: green; font-weight: bold", dataPageNumber+1);
 
         //TODO ??? SORT THIS OUT??
     } catch (error) { //If the error is wrong
