@@ -20,7 +20,7 @@ export default async function CreateBarcode(jwtToken, barcodeNumber, time) {
         barcode = data;
     } catch (err) {
         console.error("%c Unable to post barcode: ", "color: yellow; font-weight: bold", err);
-        error = err;
+        error = err; //* iff error is 401, the web app will close because it thinks the token is incorrect
     }
 
     return ({ //return object to use in App

@@ -18,6 +18,7 @@ export default async function GetData(jwtToken, handleLoginErrorPopup, dataPageN
                     `Bearer ${jwtToken}`
             },
         });
+        console.log(data);
         rows = data.map(e => ({ //only return barcode ID, note number, and submissions data.
             id: e.id,
             delivery_note_number: e.delivery_note_number,
@@ -31,6 +32,7 @@ export default async function GetData(jwtToken, handleLoginErrorPopup, dataPageN
             },
         });
         count = countdata.data;
+        
         console.log("%c Data retrieval successful: Showing page number", "color: green; font-weight: bold", dataPageNumber + 1); // +1 is for index
 
         //TODO There was some sort of bug here but I am unable to recreate it now

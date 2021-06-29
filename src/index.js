@@ -8,9 +8,6 @@ import Container from "@material-ui/core/Container";
 
 import "@fontsource/roboto";
 
-//require('dotenv').config(); //? do I need this at all?
-//import dotenv from 'dotenv';
-
 //* Any Important Information
 
 //! remove React.StrictMode for production

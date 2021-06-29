@@ -83,18 +83,17 @@ const useStyles = makeStyles((theme) => ({
 
 /**************************************************************************************************************************/
 
-
+//TODO pagination and data retrieval on page 2 is wrong, fix this
 export default function App() {
 
     const { t } = useTranslation();
-    
+
     const theme = useStyles();
 
     const [token, setToken] = useState(localStorage.getItem('jwtToken'));
     const [loginError, setLoginError] = useState(""); //error message if email and password are incorrect
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
 
-    //TODO Should I make it so that every time setError is called the popup comes up automatically? right now the error is set and then the popup is opened
     const [error, setError] = useState("");
     const [openError, setOpenError] = useState(false); //opens an error popup based on error and setError
 
@@ -145,7 +144,7 @@ export default function App() {
     const handleCloseLogoutCheck = () => { setLogoutCheck(false); }; //closes logout popup
 
     const Logout = () => { //logs out and clears email and password
-        localStorage.clear(); //? Should it only remove the token ??
+        localStorage.clear();
         setToken("");
         setLoginError("");
         console.log("%c Logout successful ", "color: purple; font-weight: bold");
@@ -159,12 +158,11 @@ export default function App() {
         setDate(moment().format()); //! The only point in having date and setDate is to update useEffect() in Home.js, there is definitely a better way to do this
         const postResponse = await CreateBarcode(token, barcode, moment().format(), handlePostError);
         if (postResponse.postError !== null) {
-            console.error(postResponse.postError);
-            handlePostError();
+            handlePostError(postResponse.postError);
         } //else do nothing
-    }; 
+    };
 
-    const handlePostError = () => {
+    const handlePostError = (error) => {
         setError(error);
         setOpenError(true);
     }; //opens error when barcode creation fails
@@ -175,14 +173,25 @@ export default function App() {
     }; //closes error popup message
 
     const handleLoginErrorPopup = (error) => {
-        setError(error);
-        setOpenError(true);
+        if (error.response.status === 401) { //specific message for 401 error
+            setError({
+                response: {
+                    status: 401,
+                },
+                message: t("Error 401 Message"),
+            });
+            setOpenError(true)
+        } else {
+            setError(error); 
+            setOpenError(true);
+        }
+
     }; //* specifically made for if the token expires
 
     const handleCloseLoginError = () => {
         setError("");
         setOpenError(false);
-        localStorage.clear(); //? Either clear everything or just the jwt Token
+        localStorage.clear();
         setToken("");
     };
 
