@@ -23,10 +23,10 @@ export default async function LoginGetToken(details) {
         localStorage.clear(); //As a safety precaution if user somehow has something in local storage
     }
 
-    return { //return object to use in App
+    return ({ //return object to use in App
         token: jwtToken,
         error: err,
-    };
+    });
 
 }
 

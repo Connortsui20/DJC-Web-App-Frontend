@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export default async function GetData(jwtToken, openLoginErrorPopup, dataPageNumber, dataPageSize) {
+export default async function GetData(jwtToken, handleLoginErrorPopup, dataPageNumber, dataPageSize) {
     //requests barcode data from the api with the jwt Token, if token is valid  
 
 
@@ -33,14 +33,14 @@ export default async function GetData(jwtToken, openLoginErrorPopup, dataPageNum
             },
         });
         count = countdata.data;
-        console.log("%c Data retrieval successful: Showing page number", "color: green; font-weight: bold", dataPageNumber+1);
+        console.log("%c Data retrieval successful: Showing page number", "color: green; font-weight: bold", dataPageNumber + 1);
 
         //TODO ??? SORT THIS OUT??
     } catch (error) { //If the error is wrong
         //! if error is specifically 401, meaning if the token is invalid, delete the jwt from local storage and setToken("")
         if (error.response.status === 401) {
             console.error("%c Authentication Token is incorrect or has expried: ", "color: yellow; font-weight: bold", error);
-            openLoginErrorPopup(error); //pass through the error
+            handleLoginErrorPopup(error); //pass through the error
         } else {
             console.error("%c Data retrieval failed: ", "color: yellow; font-weight: bold", error);
             err = error; //! implement error popup here??
@@ -48,11 +48,11 @@ export default async function GetData(jwtToken, openLoginErrorPopup, dataPageNum
         }
 
     }
-    return { //return object to use in App
+    return ({ //return object to use in App
         rows: rows,
         count: count,
         error: err,
-    };
+    });
 
 }
 

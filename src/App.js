@@ -114,7 +114,7 @@ export default function App() {
 
     const GetRows = async (token) => { //* This function only happens in the home page, under the useEffect() hook
         const dataPageNumber = pageNumber; //*these are for api data only, does not affect the frontend grid
-        const data = await GetData(token, openLoginErrorPopup, dataPageNumber, pageSize); //? Should probably not handle the expired token here but somewhere else
+        const data = await GetData(token, handleLoginErrorPopup, dataPageNumber, pageSize); //? Should probably not handle the expired token here but somewhere else
         if (data.error === null) {
             const convertedTime = convertTime(data.rows);
             setRows(convertedTime);
@@ -149,25 +149,27 @@ export default function App() {
     const handleOpenBarcode = () => { setOpenBarcode(true); }; //opens barcode scanning page
     const handleCloseBarcode = () => { setOpenBarcode(false); }; //closes barcode scanning page
 
+    //! it does not matter how the time is formatted here because api will conver it anyways, must convert time when reading from api
     const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
         setDate(moment().format()); //! The only point in having date and setDate is to update useEffect() in Home.js, there is definitely a better way to do this
-        await CreateBarcode(token, barcode, moment().format())
-            .then(response => {
-                console.log("%c Barcode scan post success: ", "color: green; font-weight: bold", response);
-            })
-            .catch(error => {
-                console.error("%c Unable to post barcode: ", "color: yellow; font-weight: bold", error);
-                setError(error);
-                setOpenError(true);
-            });
-    }; //* it does not matter how the time is formatted here because api will conver it anyways, must convert time when reading from api
+        const postResponse = await CreateBarcode(token, barcode, moment().format(), handlePostError);
+        if (postResponse.postError !== null) {
+            console.error(postResponse.postError);
+            handlePostError();
+        } //else do nothing
+    }; 
+
+    const handlePostError = () => {
+        setError(error);
+        setOpenError(true);
+    }; //opens error when barcode creation fails
 
     const handleCloseError = () => {
         setError("");
         setOpenError(false);
     }; //closes error popup message
 
-    const openLoginErrorPopup = (error) => {
+    const handleLoginErrorPopup = (error) => {
         setError(error);
         setOpenError(true);
     }; //* specifically made for if the token expires
