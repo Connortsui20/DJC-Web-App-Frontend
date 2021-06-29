@@ -16,9 +16,9 @@ export default function ErrorPopup({ error,  openError, handleCloseError, handle
 
     const { t } = useTranslation();
 
-    const decideClose = () => { //? again there is probably a better way to do this but I'll do it when I finish everything else
+    const decideClose = () => {
         if (error.response.status === 401){
-            handleCloseLoginError();
+            handleCloseLoginError(); //* specific step with extra precautions just in case a bug happens, not necessary
         } else {
             handleCloseError();
         }     

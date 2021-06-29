@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //! The current barcode scanner could possibly take up a lot of memory, not sure why
-
 export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode }) {
     //handleCloseBarcode closes the barcode scan page and return to home
     //handleAddBarcode adds the barcode that is detected to the data list

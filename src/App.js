@@ -94,7 +94,7 @@ export default function App() {
     const [loginError, setLoginError] = useState(""); //error message if email and password are incorrect
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
 
-    //! Should I make it so that every time setError is called the popup comes up automatically? right now the error is set and then the popup is opened
+    //TODO Should I make it so that every time setError is called the popup comes up automatically? right now the error is set and then the popup is opened
     const [error, setError] = useState("");
     const [openError, setOpenError] = useState(false); //opens an error popup based on error and setError
 
@@ -117,9 +117,9 @@ export default function App() {
         }
     };
 
-    const GetRows = async (token) => { //* This function only happens in the home page, under the useEffect() hook
-        const dataPageNumber = pageNumber; //*these are for api data only, does not affect the frontend grid
-        const data = await GetData(token, handleLoginErrorPopup, dataPageNumber, pageSize); //? Should probably not handle the expired token here but somewhere else
+    const GetRows = async (token) => { //* This function is called in Home.js, under the useEffect() hook
+        const dataPageNumber = pageNumber; //* these are for api data only, does not affect the frontend grid
+        const data = await GetData(token, handleLoginErrorPopup, dataPageNumber, pageSize);
         if (data.error === null) {
             const convertedTime = convertTime(data.rows);
             setRows(convertedTime);
@@ -154,7 +154,7 @@ export default function App() {
     const handleOpenBarcode = () => { setOpenBarcode(true); }; //opens barcode scanning page
     const handleCloseBarcode = () => { setOpenBarcode(false); }; //closes barcode scanning page
 
-    //! it does not matter how the time is formatted here because api will conver it anyways, must convert time when reading from api
+    //* it does not matter how the time is formatted here because api will conver it anyways, must convert time when reading from api
     const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
         setDate(moment().format()); //! The only point in having date and setDate is to update useEffect() in Home.js, there is definitely a better way to do this
         const postResponse = await CreateBarcode(token, barcode, moment().format(), handlePostError);

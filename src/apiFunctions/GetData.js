@@ -9,10 +9,10 @@ export default async function GetData(jwtToken, handleLoginErrorPopup, dataPageN
     let rows = [];
     let count = 0;
     let err = null;
-    const [start, limit] = startEnd(dataPageNumber, dataPageSize); //TODO figure out how to use this with DataTable.js material-ui DataGrid
+    const [start, limit] = startEnd(dataPageNumber, dataPageSize); 
 
     try { //request to access user barcodes with jwt Token
-        const { data } = await axios.get(`${BACKEND_URL}/barcodes/userbarcodes?start=${start}&limit=${limit}`, {  //! might change url from the backend, make sure to change it here as well
+        const { data } = await axios.get(`${BACKEND_URL}/barcodes/userbarcodes?start=${start}&limit=${limit}`, {  //* might change url from the backend, make sure to change it here as well
             headers: {
                 Authorization:
                     `Bearer ${jwtToken}`
