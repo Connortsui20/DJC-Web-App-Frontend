@@ -1,0 +1,28 @@
+{
+    "en": {
+        "translation": {
+
+            "Login Header": "Delivery Job Completion",
+            "Login Title": "Login",
+            "Login Button": "Login",
+            "Incorrect Login": "Incorrect Login Details",
+            "Email": "Email",
+            "Password": "Password",
+
+            "Barcode Numbers": "Delivery Note Number",
+            "Submission Time": "Submission Time",
+
+            "Error Title": "Error",
+            "Error Message": "?? Don't know how to translate this ??",
+
+            "Logout Title": "Logout",
+            "Logout Message": "Are you sure you want to logout?",
+            
+            "Ok": "Ok",
+            "Yes": "Yes",
+            "Cancel": "Cancel"
+
+        }
+    }
+}
+

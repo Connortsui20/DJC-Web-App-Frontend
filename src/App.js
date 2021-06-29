@@ -17,6 +17,9 @@ import { useRoutes, navigate } from "hookrouter";
 import moment from 'moment';
 import 'moment-timezone'; // could use in the future
 
+import { useTranslation } from "react-i18next";
+import "./i18n.js";
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -83,6 +86,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
 
+    const { t } = useTranslation();
+    
     const theme = useStyles();
 
     const [token, setToken] = useState(localStorage.getItem('jwtToken'));
@@ -108,7 +113,7 @@ export default function App() {
         if (jwtToken.error === null) {
             setToken(jwtToken.token);
         } else { // (if jwtToken has something)
-            setLoginError("Incorrect login details");
+            setLoginError(t("Incorrect Login")); //* can potentially pass something else through here
         }
     };
 
