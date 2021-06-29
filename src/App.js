@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 
 /**************************************************************************************************************************/
 
-//TODO pagination and data retrieval on page 2 is wrong, fix this
+
 export default function App() {
 
     const { t } = useTranslation();

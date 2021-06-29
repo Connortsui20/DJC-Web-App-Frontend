@@ -9,16 +9,17 @@ export default async function GetData(jwtToken, handleLoginErrorPopup, dataPageN
     let rows = [];
     let count = 0;
     let err = null;
-    const [start, limit] = startEnd(dataPageNumber, dataPageSize); 
+    const start = dataPageNumber * dataPageSize 
 
     try { //request to access user barcodes with jwt Token
-        const { data } = await axios.get(`${BACKEND_URL}/barcodes/userbarcodes?start=${start}&limit=${limit}`, {  //* might change url from the backend, make sure to change it here as well
+        const { data } = await axios.get(`${BACKEND_URL}/barcodes/userbarcodes?start=${start}&limit=${dataPageSize}`, {  //* might change url from the backend, make sure to change it here as well
             headers: {
                 Authorization:
                     `Bearer ${jwtToken}`
             },
         });
-        console.log(data);
+        console.log(start, data);
+        
         rows = data.map(e => ({ //only return barcode ID, note number, and submissions data.
             id: e.id,
             delivery_note_number: e.delivery_note_number,
@@ -54,11 +55,4 @@ export default async function GetData(jwtToken, handleLoginErrorPopup, dataPageN
         error: err,
     });
 
-}
-
-
-function startEnd(pageNumber, pageSize) { // start counts from 1 so add (1)*, indexes from 0 so subtracted [- 1] from everything, but limit is exclusize so add 1** back
-    const start = pageNumber * pageSize; // (+ 1)* [- 1]; // +1 is based on counting
-    const end = (pageNumber + 1) * pageSize; // [- 1] + 1**
-    return ([start, end])
 }
