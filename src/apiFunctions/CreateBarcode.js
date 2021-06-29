@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-//TODO change to try catch
-export default async function CreateBarcode(jwtToken, barcodeNumber, time, handlePostError) {
+
+export default async function CreateBarcode(jwtToken, barcodeNumber, time) {
 
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
     let barcode = {};
