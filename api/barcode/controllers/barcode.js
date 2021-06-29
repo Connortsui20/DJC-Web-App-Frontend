@@ -40,6 +40,19 @@ module.exports = {
 
     },
 
+    countuserbarcodes(ctx) {
+
+        const userID = ctx.state.user.id;
+        ctx.state.query = qs.parse(ctx.state.querystring = `users_permissions_user.id=${userID}`);
+
+        if (ctx.query._q) {
+            return strapi.services.barcode.countSearch(ctx.state.query);
+        }
+
+        return strapi.services.barcode.count(ctx.state.query);
+
+    },
+
     async createbarcode(ctx) { //the same as the create api, except adding the userID from ctx
 
         let entity;
@@ -55,19 +68,6 @@ module.exports = {
 
         return sanitizeEntity(entity, { model: strapi.models.barcode });
         
-    },
-
-    countuserbarcodes(ctx) {
-
-        const userID = ctx.state.user.id;
-        ctx.state.query = qs.parse(ctx.state.querystring = `users_permissions_user.id=${userID}`);
-
-        if (ctx.query._q) {
-            return strapi.services.barcode.countSearch(ctx.state.query);
-        }
-
-        return strapi.services.barcode.count(ctx.state.query);
-
     },
 
 };

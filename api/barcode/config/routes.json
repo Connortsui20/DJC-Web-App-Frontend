@@ -1,21 +1,11 @@
 {
   "routes": [
     
-
     
     {
       "method": "GET",
       "path": "/barcodes/userbarcodes",
       "handler": "barcode.userbarcodes",
-      "config": {
-        "policies": []
-      }
-    },
-
-    {
-      "method": "POST",
-      "path": "/barcodes/createbarcode",
-      "handler": "barcode.createbarcode",
       "config": {
         "policies": []
       }
@@ -29,7 +19,15 @@
         "policies": []
       }
     },
-    
+
+    {
+      "method": "POST",
+      "path": "/barcodes/createbarcode",
+      "handler": "barcode.createbarcode",
+      "config": {
+        "policies": []
+      }
+    },
 
     
     {
