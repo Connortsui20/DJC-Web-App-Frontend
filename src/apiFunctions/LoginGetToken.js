@@ -14,7 +14,7 @@ export default async function LoginGetToken(details) {
             identifier: details.email,
             password: details.password,
         });
-        console.log("%c Login details are correct: Logging in", "color: green; font-weight: bold");
+        console.log("%c Login successful", "color: green; font-weight: bold");
         jwtToken = data.jwt;  //if successful store jwt token for return and local storage
         localStorage.setItem("jwtToken", jwtToken);
     } catch (error) {

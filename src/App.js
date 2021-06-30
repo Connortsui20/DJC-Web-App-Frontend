@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 import "./i18n.js";
 
 
+
 const useStyles = makeStyles((theme) => ({
 
     form: { //form text box
@@ -108,9 +109,9 @@ export default function App() {
     /**************************************************************************************************************************/
 
     const Login = async (details) => {
-        const jwtToken = await LoginGetToken(details);
-        if (jwtToken.error === null) {
-            setToken(jwtToken.token);
+        const {token, error} = await LoginGetToken(details);
+        if (error === null) {
+            setToken(token);
         } else { // (if jwtToken has something)
             setLoginError(t("Incorrect Login")); //* can potentially pass something else through here
         }
@@ -118,13 +119,13 @@ export default function App() {
 
     const GetRows = async (token) => { //* This function is called in Home.js, under the useEffect() hook
         const dataPageNumber = pageNumber; //* these are for api data only, does not affect the frontend grid
-        const data = await GetData(token, handleLoginErrorPopup, dataPageNumber, pageSize);
-        if (data.error === null) {
-            const convertedTime = convertTime(data.rows);
+        const { rows, count, error } = await GetData(token, handleLoginErrorPopup, dataPageNumber, pageSize);
+        if (error === null) {
+            const convertedTime = convertTime(rows);
             setRows(convertedTime);
-            setCount(data.count);
+            setCount(count);
         } else {
-            setError(data.error);
+            setError(error);
             setOpenError(true);
         }
     };
@@ -156,9 +157,9 @@ export default function App() {
     //* it does not matter how the time is formatted here because api will conver it anyways, must convert time when reading from api
     const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
         setDate(moment().format()); //! The only point in having date and setDate is to update useEffect() in Home.js, there is definitely a better way to do this
-        const postResponse = await CreateBarcode(token, barcode, moment().format(), handlePostError);
-        if (postResponse.postError !== null) {
-            handlePostError(postResponse.postError);
+        const { postBarcode, postError } = await CreateBarcode(token, barcode, moment().format(), handlePostError);
+        if (postError !== null) {
+            handlePostError(postError);
         } //else do nothing
     };
 
@@ -173,7 +174,7 @@ export default function App() {
     }; //closes error popup message
 
     const handleLoginErrorPopup = (error) => {
-        if (error.response.status === 401) { //specific message for 401 error
+        if (error.response?.status === 401) { //specific message for 401 error
             setError({
                 response: {
                     status: 401,
@@ -182,7 +183,7 @@ export default function App() {
             });
             setOpenError(true)
         } else {
-            setError(error); 
+            setError(error);
             setOpenError(true);
         }
 
@@ -194,6 +195,33 @@ export default function App() {
         localStorage.clear();
         setToken("");
     };
+
+
+    // navigator.getUserMedia (
+    //     // constraints
+    //     {
+    //        video: true,
+    //        audio: true
+    //     },
+
+    //     // successCallback
+    //     function(localMediaStream) {
+    //        var video = document.querySelector('video');
+    //        video.src = window.URL.createObjectURL(localMediaStream);
+    //        video.onloadedmetadata = function(e) {
+    //           // Do something with the video here.
+    //        };
+    //     },
+
+    //     // errorCallback
+    //     // function(err) {
+    //     //  if(err === PERMISSION_DENIED) {
+    //     //    // Explain why you need permission and how to update the permission setting
+    //     //  }
+    //     // }
+    //  );
+
+
 
     /**************************************************************************************************************************/
 
