@@ -3,24 +3,11 @@ import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 
 import HeaderScan from "../components/HeaderScanPage";
 
-import { makeStyles } from "@material-ui/core/styles";
-
-
-const useStyles = makeStyles((theme) => ({
-    camera: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#000",
-    },
-}));
 
 //! The current barcode scanner could possibly take up a lot of memory, not sure why
-export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode }) {
+export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode, theme }) {
     //handleCloseBarcode closes the barcode scan page and return to home
     //handleAddBarcode adds the barcode that is detected to the data list
-
-    const scanTheme = useStyles();
 
     const saveBarcode = (savedCode) => {
         handleAddBarcode(savedCode); //save the code (in App.js)
@@ -32,7 +19,7 @@ export default function BarcodeScanPage({ handleCloseBarcode, handleAddBarcode }
             <div>
                 <HeaderScan handleCloseBarcode={handleCloseBarcode} />
             </div>
-            <div className={scanTheme.camera}>
+            <div className={theme.camera}>
                 <BarcodeScannerComponent
                     width={"100%"}
                     onUpdate={(error, savedCode) => { //error is whenever the scanner doesn't detect anything

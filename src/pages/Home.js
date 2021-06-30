@@ -5,8 +5,6 @@ import ErrorPopup from "../components/ErrorPopup";
 import LogoutPopup from "../components/LogoutPopup";
 import DataTable from "../components/DataTable";
 
-import { makeStyles } from "@material-ui/core/styles";
-
 
 export default function Home({
     GetRows, rows, date, token, pageNumber, pageSize, count, handlePageChange,
@@ -14,13 +12,6 @@ export default function Home({
     handleOpenBarcode, Logout, logoutCheck,
     handleOpenLogoutCheck, handleCloseLogoutCheck, theme }) {
 
-    const useStyles = makeStyles((theme) => ({
-        form: { //padding to table
-            padding: "0 5%",
-        },
-    }));
-
-    const tableTheme = useStyles();
 
     useEffect(() => { //? It might be better for performance if useCallback() is used instead of useEffect()
         GetRows(token);
@@ -32,10 +23,10 @@ export default function Home({
             <div>
                 <HeaderIn handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck} />
             </div>
-            <div className={tableTheme.form}>
+            <div className={theme.table}>
                 <ErrorPopup error={error} openError={openError} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError} theme={theme} />
                 <LogoutPopup logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />
-                <DataTable rows={rows} pageNumber={pageNumber} pageSize={pageSize} count={count} handlePageChange={handlePageChange} />
+                <DataTable rows={rows} pageNumber={pageNumber} pageSize={pageSize} count={count} handlePageChange={handlePageChange} theme={theme} />
             </div>
         </div>
     );

@@ -4,8 +4,8 @@ import axios from 'axios';
 export default async function CreateBarcode(jwtToken, barcodeNumber, time) {
 
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-    let barcode = {};
-    let error = null;
+    let postBarcode = {};
+    let postError = null;
 
     try {
         const { data } = await axios.post(`${BACKEND_URL}/barcodes/createbarcode`, { //* could change url in backend so make sure to change here as well
@@ -17,15 +17,15 @@ export default async function CreateBarcode(jwtToken, barcodeNumber, time) {
             }
         );
         console.log("%c Barcode scan post success: ", "color: green; font-weight: bold", data);
-        barcode = data;
-    } catch (err) {
-        console.error("%c Unable to post barcode: ", "color: yellow; font-weight: bold", err);
-        error = err; //* iff error is 401, the web app will close because it thinks the token is incorrect
+        postBarcode = data;
+    } catch (error) {
+        console.error("%c Unable to post barcode: ", "color: yellow; font-weight: bold", error);
+        postError = error; //* iff error is 401, the web app will close because it thinks the token is incorrect
     }
 
     return ({ //return object to use in App
-        postBarcode: barcode,
-        postError: error,
+        postBarcode,
+        postError,
     });
 
 }

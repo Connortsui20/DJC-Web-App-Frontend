@@ -31,7 +31,6 @@ export default async function GetData(jwtToken, handleLoginErrorPopup, dataPageN
             },
         });
         count = countdata.data;
-        console.log(countdata);
         console.log("%c Data retrieval successful: Showing page number", "color: green; font-weight: bold", dataPageNumber + 1); // +1 is for index
 
         //TODO There was some sort of bug here but I am unable to recreate it now
@@ -48,8 +47,8 @@ export default async function GetData(jwtToken, handleLoginErrorPopup, dataPageN
     }
 
     return ({ //return object to use in App
-        rows: rows,
-        count: count,
+        rows,
+        count,
         error: err,
     });
 

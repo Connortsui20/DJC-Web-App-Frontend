@@ -4,7 +4,7 @@ import axios from 'axios';
 export default async function LoginGetToken(details) {
     //Sends email and password that was entered to the api, if correct the api sends a token back, token is stored in App.js
 
-    let jwtToken = "";
+    let token = "";
     let err = null;
 
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -15,8 +15,8 @@ export default async function LoginGetToken(details) {
             password: details.password,
         });
         console.log("%c Login successful", "color: green; font-weight: bold");
-        jwtToken = data.jwt;  //if successful store jwt token for return and local storage
-        localStorage.setItem("jwtToken", jwtToken);
+        token = data.jwt;  //if successful store jwt token for return and local storage
+        localStorage.setItem("jwtToken", token);
     } catch (error) {
         console.error("%c Login details are wrong: ", "color: yellow; font-weight: bold", error);
         err = error;
@@ -24,7 +24,7 @@ export default async function LoginGetToken(details) {
     }
 
     return ({ //return object to use in App
-        token: jwtToken,
+        token,
         error: err,
     });
 

@@ -22,7 +22,7 @@ import "./i18n.js";
 
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({ //* There are separate styles for the 3 headers
 
     form: { //form text box
         width: "100%",
@@ -32,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
 
     formInput: { //Form text color
         color: "#5E646A",
+    },
+
+    login: { //padding to table
+        padding: "0 10%",
     },
 
     title: { //"Login"
@@ -74,9 +78,21 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(0, 1, 0),
     },
 
-    welcome: { // welcome user message
-        color: "black",
-        marginTop: theme.spacing(15)
+
+    camera: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#000",
+    },
+
+    table: { //padding to table
+        padding: "0 5%",
+    },
+
+    data: {
+        width: "100%",
+        marginBottom: theme.spacing(5),
     },
 
 }));
@@ -105,11 +121,12 @@ export default function App() {
     const [count, setCount] = useState(100); //max is 100 so just set to 100 for default
     const [pageNumber, setPageNumber] = useState(0);
     const pageSize = 10; //the # of scans the api requests is equal to the amount shown on the grid
+    let newestBarcode = {}; //to trigger useEffect after every successful post request
 
     /**************************************************************************************************************************/
 
     const Login = async (details) => {
-        const {token, error} = await LoginGetToken(details);
+        const { token, error } = await LoginGetToken(details);
         if (error === null) {
             setToken(token);
         } else { // (if jwtToken has something)
@@ -160,7 +177,9 @@ export default function App() {
         const { postBarcode, postError } = await CreateBarcode(token, barcode, moment().format(), handlePostError);
         if (postError !== null) {
             handlePostError(postError);
-        } //else do nothing
+        } else {
+            newestBarcode = postBarcode; //forces useEffect() to update
+        }
     };
 
     const handlePostError = (error) => {
@@ -197,42 +216,17 @@ export default function App() {
     };
 
 
-    // navigator.getUserMedia (
-    //     // constraints
-    //     {
-    //        video: true,
-    //        audio: true
-    //     },
-
-    //     // successCallback
-    //     function(localMediaStream) {
-    //        var video = document.querySelector('video');
-    //        video.src = window.URL.createObjectURL(localMediaStream);
-    //        video.onloadedmetadata = function(e) {
-    //           // Do something with the video here.
-    //        };
-    //     },
-
-    //     // errorCallback
-    //     // function(err) {
-    //     //  if(err === PERMISSION_DENIED) {
-    //     //    // Explain why you need permission and how to update the permission setting
-    //     //  }
-    //     // }
-    //  );
-
-
-
     /**************************************************************************************************************************/
 
     const routes = { //all url routes
         "/home": () => <Home
-            GetRows={GetRows} rows={rows} date={date} token={token} pageNumber={pageNumber} pageSize={pageSize} count={count} handlePageChange={handlePageChange}
+            GetRows={GetRows} rows={rows} date={date} newestBarcode={newestBarcode} token={token} pageNumber={pageNumber}
+            pageSize={pageSize} count={count} handlePageChange={handlePageChange}
             error={error} openError={openError} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError}
             handleOpenBarcode={handleOpenBarcode} Logout={Logout} logoutCheck={logoutCheck}
             handleOpenLogoutCheck={handleOpenLogoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} theme={theme} />,
         "/login": () => <LoginPage Login={Login} loginError={loginError} theme={theme} />,
-        "/scan": () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode} />,
+        "/scan": () => <BarcodeScanPage handleCloseBarcode={handleCloseBarcode} handleAddBarcode={handleAddBarcode} theme={theme} />,
         "/something": () => <NoPageFound />,
     };
 

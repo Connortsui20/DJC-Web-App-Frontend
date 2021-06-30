@@ -1,24 +1,14 @@
 import * as React from "react";
 
 import { DataGrid } from "@material-ui/data-grid";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { useTranslation } from "react-i18next";
 
 
-export default function DataTable({ rows, pageNumber, count, handlePageChange, pageSize }) {
+export default function DataTable({ rows, pageNumber, count, handlePageChange, pageSize, theme }) {
     //rows is defined in App(), should only have 2 columns id and SubmitTime
 
     const { t } = useTranslation();
-
-    const useStyles = makeStyles((theme) => ({
-        table: {
-            width: "100%", 
-            marginBottom: theme.spacing(5),
-        }
-    }));
-
-    const dataTheme = useStyles();
 
     const columns = [
         { field: 'id', hide: true },
@@ -27,7 +17,7 @@ export default function DataTable({ rows, pageNumber, count, handlePageChange, p
     ]; //* this only defines and styles the header, column cells are styled in index.css line 1 (.MuiDataGrid-renderingZone !important) to be 100% width
 
     return (
-        <div className={dataTheme.table}>
+        <div className={theme.data}>
             <DataGrid autoHeight={true} rows={rows} columns={columns} page={pageNumber} pageSize={pageSize} rowCount={count} paginationMode={'server'} onPageChange={handlePageChange} disableExtendRowFullWidth={false} />
         </div>
     );
