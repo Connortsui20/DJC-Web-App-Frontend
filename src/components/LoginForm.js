@@ -15,8 +15,8 @@ export default function LoginForm({ Login, loginError, theme }) {
     
     const [details, setDetails] = useState({ email: "", password: "" });
 
-    const submitLogin = (e) => {
-        e.preventDefault(); //prevent page from re-rendering
+    const submitLogin = (event) => {
+        event.preventDefault(); //prevent page from re-rendering
         Login(details);
     }
 
