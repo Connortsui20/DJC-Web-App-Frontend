@@ -112,7 +112,6 @@ export default function App() {
     const [logoutCheck, setLogoutCheck] = useState(false); //opens and closes logout popup check
 
     const [error, setError] = useState("");
-    const [openError, setOpenError] = useState(false); //opens an error popup based on error and setError
 
     const [openBarcode, setOpenBarcode] = useState(false); //open barcode scanning page
 
@@ -127,7 +126,8 @@ export default function App() {
 
     const Login = async (details) => {
         const { token, error } = await LoginGetToken(details);
-        if (error === null) {
+        
+        if (!error) {
             setToken(token);
         } else { // (if jwtToken has something)
             setLoginError(t("Incorrect Login")); //* can potentially pass something else through here
@@ -137,13 +137,12 @@ export default function App() {
     const GetRows = async (token) => { //* This function is called in Home.js, under the useEffect() hook
         const dataPageNumber = pageNumber; //* these are for api data only, does not affect the frontend grid
         const { rows, count, error } = await GetData(token, handleLoginErrorPopup, dataPageNumber, pageSize);
-        if (error === null) {
+        if (!error) { //? Might want to use (!error) instead
             const convertedTime = convertTime(rows);
             setRows(convertedTime);
             setCount(count);
         } else {
             setError(error);
-            setOpenError(true);
         }
     };
 
@@ -175,21 +174,21 @@ export default function App() {
     const handleAddBarcode = async (barcode) => { //adds the barcode once the scanner finds anything
         setDate(moment().format()); //! The only point in having date and setDate is to update useEffect() in Home.js, there is definitely a better way to do this
         const { postBarcode, postError } = await CreateBarcode(token, barcode, moment().format(), handlePostError);
-        if (postError !== null) {
-            handlePostError(postError);
-        } else {
+        if (!postError) {
             newestBarcode = postBarcode; //forces useEffect() to update
+        } else {
+            handlePostError(postError);
         }
     };
 
     const handlePostError = (error) => {
         setError(error);
-        setOpenError(true);
+
     }; //opens error when barcode creation fails
 
     const handleCloseError = () => {
         setError("");
-        setOpenError(false);
+
     }; //closes error popup message
 
     const handleLoginErrorPopup = (error) => {
@@ -200,17 +199,17 @@ export default function App() {
                 },
                 message: t("Error 401 Message"),
             });
-            setOpenError(true)
+
         } else {
             setError(error);
-            setOpenError(true);
+
         }
 
     }; //* specifically made for if the token expires
 
     const handleCloseLoginError = () => {
         setError("");
-        setOpenError(false);
+
         localStorage.clear();
         setToken("");
     };
@@ -222,7 +221,7 @@ export default function App() {
         "/home": () => <Home
             GetRows={GetRows} rows={rows} date={date} newestBarcode={newestBarcode} token={token} pageNumber={pageNumber}
             pageSize={pageSize} count={count} handlePageChange={handlePageChange}
-            error={error} openError={openError} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError}
+            error={error}  handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError}
             handleOpenBarcode={handleOpenBarcode} Logout={Logout} logoutCheck={logoutCheck}
             handleOpenLogoutCheck={handleOpenLogoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} theme={theme} />,
         "/login": () => <LoginPage Login={Login} loginError={loginError} theme={theme} />,
@@ -234,7 +233,7 @@ export default function App() {
 
     return ( //application starts here
         <div className="App">
-            {(token !== "" && token !== null && token !== undefined) ?
+            {(token !== "" && token !== null && token !== undefined) ? //? Might want to change to just (token)
                 ((!openBarcode) ? (navigate("/home")) : (navigate("/scan"))
                 ) : (navigate("/login"))}
             {routeResult || <NoPageFound />}

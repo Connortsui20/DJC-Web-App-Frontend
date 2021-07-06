@@ -10,8 +10,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { useTranslation } from "react-i18next";
 
 
-export default function ErrorPopup({ error,  openError, handleCloseError, handleCloseLoginError, theme }) {
-    //openError is a boolean, true brings up the popup, false closes it
+export default function ErrorPopup({ error, handleCloseError, handleCloseLoginError, theme }) {
     //handleCloseError closes the error popup and resets the error
 
     const { t } = useTranslation();
@@ -26,7 +25,7 @@ export default function ErrorPopup({ error,  openError, handleCloseError, handle
 
     return (
         <div><Dialog
-            open={openError}
+            open={!!error}
             onClose={decideClose}>
             <DialogTitle id="error">{t("Error Title")}</DialogTitle>
             <DialogContent><DialogContentText id="error description">

@@ -8,7 +8,7 @@ import DataTable from "../components/DataTable";
 
 export default function Home({
     GetRows, rows, date, token, pageNumber, pageSize, count, handlePageChange,
-    error, openError, handleCloseError, handleCloseLoginError,
+    error, handleCloseError, handleCloseLoginError,
     handleOpenBarcode, Logout, logoutCheck,
     handleOpenLogoutCheck, handleCloseLogoutCheck, theme }) {
 
@@ -24,7 +24,7 @@ export default function Home({
                 <HeaderIn handleOpenBarcode={handleOpenBarcode} handleOpenLogoutCheck={handleOpenLogoutCheck} />
             </div>
             <div className={theme.table}>
-                <ErrorPopup error={error} openError={openError} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError} theme={theme} />
+                <ErrorPopup error={error} handleCloseError={handleCloseError} handleCloseLoginError={handleCloseLoginError} theme={theme} />
                 <LogoutPopup logoutCheck={logoutCheck} handleCloseLogoutCheck={handleCloseLogoutCheck} Logout={Logout} theme={theme} />
                 <DataTable rows={rows} pageNumber={pageNumber} pageSize={pageSize} count={count} handlePageChange={handlePageChange} theme={theme} />
             </div>
