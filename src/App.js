@@ -78,7 +78,6 @@ const useStyles = makeStyles((theme) => ({ //* There are separate styles for the
         margin: theme.spacing(0, 1, 0),
     },
 
-
     camera: {
         display: "flex",
         alignItems: "center",
