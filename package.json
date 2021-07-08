@@ -1,0 +1,61 @@
+{
+  "name": "djc-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fontsource/roboto": "^4.4.5",
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/data-grid": "^4.0.0-alpha.32",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/styles": "^4.11.4",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
+    "barcode-react-scanner": "^1.2.0",
+    "dotenv": "^10.0.0",
+    "env-cmd": "^10.1.0",
+    "hookrouter": "^1.2.5",
+    "i18next": "^20.3.2",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-i18next": "^11.11.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-webcam-barcode-scanner": "0.0.2-rc2",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "local": "./node_modules/.bin/env-cmd -f .env react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "no-unused-vars": "off"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
